@@ -53,10 +53,15 @@ main {
   position: fixed;
   top: 80px;
   left: 0;
-  overflow-y: auto; /* Enable vertical scrolling inside container */
+  overflow-y: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.stories-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }
 .stories-track {
   display: flex;

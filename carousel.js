@@ -10,21 +10,31 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Set up vertical scrolling motion with GSAP
+  // Clone items for infinite looping
+  const itemCount = items.length;
+  for (let i = 0; i < itemCount; i++) {
+    const clone = items[i].cloneNode(true);
+    track.appendChild(clone);
+  }
+
+  // Set up infinite vertical scrolling motion
+  const totalHeight = track.scrollHeight / 2; // Half the height since we doubled the items
   gsap.to(track, {
-    y: () => -(track.scrollHeight - container.clientHeight),
+    y: -totalHeight,
     ease: "none",
+    repeat: -1, // Infinite loop
     scrollTrigger: {
       trigger: container,
       start: "top top",
-      end: () => `+=${track.scrollHeight - container.clientHeight}`,
+      end: () => `+=${totalHeight}`,
       scrub: true,
       pin: true,
     },
   });
 
-  // Enlarge effect for items in the middle
-  items.forEach((item) => {
+  // Enlarge effect for items in the middle (apply to all items, including clones)
+  const allItems = document.querySelectorAll(".story-item");
+  allItems.forEach((item) => {
     gsap.to(item, {
       scale: 1.2,
       ease: "power1.inOut",
@@ -38,9 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Add wheel event listener for trackpad support
+  // Handle trackpad scrolling
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
-    container.scrollTop += e.deltaY; // Adjust scroll position based on trackpad input
+    container.scrollTop += e.deltaY;
   });
 });
