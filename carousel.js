@@ -1,8 +1,13 @@
-document.addEventListener("DOMContentLoaded", () => {
+window.onload = () => {
   gsap.registerPlugin(ScrollTrigger);
 
   const track = document.querySelector(".stories-track");
   const items = document.querySelectorAll(".story-item");
+
+  if (!track || items.length === 0) {
+    console.error("Track or items not found!");
+    return;
+  }
 
   // Set up vertical scrolling motion
   gsap.to(track, {
@@ -20,15 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // Enlarge effect for items in the middle
   items.forEach((item) => {
     gsap.to(item, {
-      scale: 1.2, // Enlarge to 120% when centered
+      scale: 1.2,
       ease: "power1.inOut",
       scrollTrigger: {
         trigger: item,
-        start: "top 80%", // Start scaling when item reaches 80% from top
-        end: "top 20%",   // Peak at 50%, then shrink
+        start: "top 80%",
+        end: "top 20%",
         scrub: true,
         toggleActions: "play reverse play reverse",
       },
     });
   });
-});
+};
