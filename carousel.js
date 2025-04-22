@@ -1,4 +1,4 @@
-window.onload = () => {
+document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
 
   const track = document.querySelector(".stories-track");
@@ -36,4 +36,4 @@ window.onload = () => {
       },
     });
   });
-};
+});
