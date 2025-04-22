@@ -1,30 +1,34 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const track = document.querySelector(".carousel-track");
-  const items = track.querySelectorAll(".story-item");
-  const itemCount = items.length;
+  gsap.registerPlugin(ScrollTrigger);
 
-  // Clone items for seamless looping
-  for (let i = 0; i < itemCount; i++) {
-    const clone = items[i].cloneNode(true);
-    track.appendChild(clone);
-  }
+  const track = document.querySelector(".stories-track");
+  const items = document.querySelectorAll(".story-item");
 
-  // Set track width
-  const itemWidth = 250 + 20; // 250px width + 20px gap
-  const totalWidth = itemWidth * itemCount;
-  track.style.width = `${totalWidth * 2}px`;
+  // Set up vertical scrolling motion
+  gsap.to(track, {
+    y: () => -(track.scrollHeight - window.innerHeight),
+    ease: "none",
+    scrollTrigger: {
+      trigger: track,
+      start: "top top",
+      end: () => `+=${track.scrollHeight - window.innerHeight}`,
+      scrub: true,
+      pin: true,
+    },
+  });
 
-  // Handle mouse wheel scrolling
-  let scrollPosition = 0;
-  track.parentElement.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    const maxScroll = -totalWidth; // Max scroll distance (negative)
-    scrollPosition -= e.deltaY; // Scroll based on wheel movement
-
-    // Seamless looping
-    if (scrollPosition <= maxScroll) scrollPosition = 0;
-    if (scrollPosition >= 0) scrollPosition = maxScroll;
-
-    track.style.transform = `translateX(${scrollPosition}px)`;
+  // Enlarge effect for items in the middle
+  items.forEach((item) => {
+    gsap.to(item, {
+      scale: 1.2, // Enlarge to 120% when centered
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: item,
+        start: "top 80%", // Start scaling when item reaches 80% from top
+        end: "top 20%",   // Peak at 50%, then shrink
+        scrub: true,
+        toggleActions: "play reverse play reverse",
+      },
+    });
   });
 });

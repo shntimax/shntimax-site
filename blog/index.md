@@ -3,8 +3,9 @@ title: ShntiMax Stories
 layout: main
 ---
 My thoughts and tales.
-<div class="stories-carousel">
-<div class="carousel-track">
+<div class="stories-container">
+<div class="stories-track">
+
   <a href="/blog/story1/" class="story-item">
     <img src="/assets/photo1.jpg" alt="Story 1">
     <p>A peaceful sunset...</p>
@@ -25,6 +26,12 @@ My thoughts and tales.
 </div>
 
 <script src="/carousel.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+
+
 
 
 
