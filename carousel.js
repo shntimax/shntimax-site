@@ -10,25 +10,33 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Clone items for infinite looping
+  // Clone items for infinite looping (double the content)
   const itemCount = items.length;
   for (let i = 0; i < itemCount; i++) {
     const clone = items[i].cloneNode(true);
     track.appendChild(clone);
   }
 
-  // Set up infinite vertical scrolling motion
-  const totalHeight = track.scrollHeight / 2; // Half the height since we doubled the items
+  // Set up seamless infinite looping
+  const totalHeight = track.scrollHeight / 2; // Height of original items
+  let scrollPos = 0;
+
   gsap.to(track, {
-    y: -totalHeight,
+    y: () => -(totalHeight),
     ease: "none",
-    repeat: -1, // Infinite loop
     scrollTrigger: {
       trigger: container,
       start: "top top",
       end: () => `+=${totalHeight}`,
       scrub: true,
       pin: true,
+      onUpdate: (self) => {
+        scrollPos = self.progress * totalHeight;
+        if (scrollPos >= totalHeight) {
+          gsap.set(track, { y: 0 }); // Reset position
+          self.progress = 0; // Reset scroll progress
+        }
+      },
     },
   });
 
@@ -40,10 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
       ease: "power1.inOut",
       scrollTrigger: {
         trigger: item,
-        start: "top 80%",
-        end: "top 20%",
-        scrub: true,
+        start: "top 70%", // Start scaling earlier
+        end: "top 30%",   // Peak at middle, then shrink
+        scrub: 1,         // Smooth scaling tied to scroll
         toggleActions: "play reverse play reverse",
+        markers: false,   // Set to true for debugging
       },
     });
   });
