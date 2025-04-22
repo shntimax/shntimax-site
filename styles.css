@@ -48,12 +48,17 @@ body {
     position: relative;
     margin: 20px 0;
   }
-  .carousel-track {
-    display: flex;
-    gap: 20px;
-    animation: scroll 20s linear infinite; /* Slower for better looping */
-    white-space: nowrap;
-  }
+  
+
+.carousel-track {
+  display: flex;
+  gap: 20px;
+  animation: scroll 20s linear infinite;
+  white-space: nowrap;
+  will-change: transform; /* Optimize animation */
+}
+
+
   .story-item {
     flex: 0 0 auto;
     width: 250px;
@@ -77,5 +82,5 @@ body {
   }
   @keyframes scroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* Move half the track width */
+    100% { transform: translateX(-50%); }
   }

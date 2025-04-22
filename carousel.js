@@ -3,12 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const items = track.querySelectorAll(".story-item");
   const itemCount = items.length;
 
-  // Clone items for seamless looping (double the items)
+  // Clone items for seamless looping
   for (let i = 0; i < itemCount; i++) {
     const clone = items[i].cloneNode(true);
     track.appendChild(clone);
   }
 
-  // Ensure the track width is set dynamically
-  track.style.width = `${itemCount * 250 * 2}px`; // 250px per item, doubled for clones
+  // Set track width to accommodate original + cloned items
+  const itemWidth = 250 + 20; // 250px width + 20px gap
+  track.style.width = `${itemWidth * itemCount * 2}px`;
 });
