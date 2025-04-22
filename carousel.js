@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Set up vertical scrolling motion within the container
+  // Set up vertical scrolling motion with GSAP
   gsap.to(track, {
     y: () => -(track.scrollHeight - container.clientHeight),
     ease: "none",
@@ -36,5 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleActions: "play reverse play reverse",
       },
     });
+  });
+
+  // Add wheel event listener for trackpad support
+  container.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    container.scrollTop += e.deltaY; // Adjust scroll position based on trackpad input
   });
 });

@@ -4,17 +4,17 @@ body {
   color: #333;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Disable page scrolling */
+  overflow: hidden;
 }
 header {
   text-align: center;
   background: #A4D4D9;
   padding: 20px;
-  position: fixed; /* Fix header at the top */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 10; /* Ensure header stays above stories */
+  z-index: 10;
 }
 nav a {
   margin: 0 15px;
@@ -30,7 +30,7 @@ main {
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
-  margin-top: 80px; /* Space for fixed header */
+  margin-top: 80px;
 }
 .gallery {
   display: grid;
@@ -49,11 +49,11 @@ main {
 }
 .stories-container {
   width: 100%;
-  height: calc(100vh - 80px); /* Full height minus header */
+  height: calc(100vh - 80px);
   position: fixed;
-  top: 80px; /* Below the header */
+  top: 80px;
   left: 0;
-  overflow: hidden;
+  overflow-y: auto; /* Enable vertical scrolling inside container */
   display: flex;
   justify-content: center;
   align-items: center;
