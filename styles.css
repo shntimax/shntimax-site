@@ -50,13 +50,13 @@ body {
   }
   
 
-.carousel-track {
-  display: flex;
-  gap: 20px;
-  animation: scroll 20s linear infinite;
-  white-space: nowrap;
-  will-change: transform; /* Optimize animation */
-}
+  .carousel-track {
+    display: flex;
+    gap: 20px;
+    white-space: nowrap;
+    will-change: transform;
+    transition: transform 0.3s ease; /* Smooth manual scrolling */
+  }
 
 
   .story-item {
@@ -80,7 +80,4 @@ body {
     font-size: 1rem;
     color: #1A3C4D;
   }
-  @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
+  
