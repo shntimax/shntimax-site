@@ -4,26 +4,33 @@ body {
   color: #333;
   margin: 0;
   padding: 0;
+  overflow: hidden; /* Disable page scrolling */
 }
 header {
   text-align: center;
-  background: #A4D4D9; /* Your pastel turquoise */
+  background: #A4D4D9;
   padding: 20px;
+  position: fixed; /* Fix header at the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10; /* Ensure header stays above stories */
 }
 nav a {
   margin: 0 15px;
-  color: #1A3C4D; /* Darker teal */
+  color: #1A3C4D;
   text-decoration: none;
   font-weight: bold;
 }
 nav a:hover {
-  color: #E8F1F2; /* Interactive hover effect */
+  color: #E8F1F2;
 }
 main {
   max-width: 800px;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 0 20px;
   text-align: center;
+  margin-top: 80px; /* Space for fixed header */
 }
 .gallery {
   display: grid;
@@ -42,9 +49,11 @@ main {
 }
 .stories-container {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 80px); /* Full height minus header */
+  position: fixed;
+  top: 80px; /* Below the header */
+  left: 0;
   overflow: hidden;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;

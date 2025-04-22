@@ -1,22 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
 
+  const container = document.querySelector(".stories-container");
   const track = document.querySelector(".stories-track");
   const items = document.querySelectorAll(".story-item");
 
-  if (!track || items.length === 0) {
-    console.error("Track or items not found!");
+  if (!container || !track || items.length === 0) {
+    console.error("Container, track, or items not found!");
     return;
   }
 
-  // Set up vertical scrolling motion
+  // Set up vertical scrolling motion within the container
   gsap.to(track, {
-    y: () => -(track.scrollHeight - window.innerHeight),
+    y: () => -(track.scrollHeight - container.clientHeight),
     ease: "none",
     scrollTrigger: {
-      trigger: track,
+      trigger: container,
       start: "top top",
-      end: () => `+=${track.scrollHeight - window.innerHeight}`,
+      end: () => `+=${track.scrollHeight - container.clientHeight}`,
       scrub: true,
       pin: true,
     },
