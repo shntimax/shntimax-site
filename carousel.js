@@ -8,12 +8,14 @@ window.addEventListener("load", () => {
     return;
   }
 
-  // Prepare items for infinite looping (no cloning, we'll reposition originals)
+  // Prepare items for infinite looping
   const allItems = Array.from(items);
   const itemCount = allItems.length;
-  const itemHeights = allItems.map(item => item.getBoundingClientRect().height + 20); // 20px gap
-  const totalHeight = itemHeights.reduce((sum, height) => sum + height, 0);
-  let positions = allItems.map((_, index) => index * (totalHeight / itemCount)); // Initial positions
+  const itemHeights = allItems.map(item => item.getBoundingClientRect().height);
+  const gap = 40; // Increased gap between items (was effectively 20px)
+  const totalItemHeight = itemHeights.reduce((sum, height) => sum + height + gap, 0) - gap; // Total height including gaps
+  const avgItemHeight = totalItemHeight / itemCount; // Average height per item including gap
+  let positions = allItems.map((_, index) => index * avgItemHeight); // Initial positions with increased spacing
 
   // Set initial positions
   allItems.forEach((item, index) => {
@@ -34,11 +36,11 @@ window.addEventListener("load", () => {
       if (itemTop > viewportHeight + itemRect.height) {
         // Item is below the viewport, move it to the top
         const topmostY = Math.min(...positions.filter((_, i) => i !== index));
-        positions[index] = topmostY - (itemRect.height + 20);
+        positions[index] = topmostY - (itemRect.height + gap);
       } else if (itemTop < -itemRect.height) {
         // Item is above the viewport, move it to the bottom
         const bottommostY = Math.max(...positions.filter((_, i) => i !== index));
-        positions[index] = bottommostY + (itemRect.height + 20);
+        positions[index] = bottommostY + (itemRect.height + gap);
       }
 
       // Update the item's position
@@ -53,7 +55,7 @@ window.addEventListener("load", () => {
       const updatedCenter = updatedTop + itemRect.height / 2;
       const distanceFromCenter = Math.abs(updatedCenter - viewportHeight / 2) / (viewportHeight / 2);
       const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
-      const curveOffset = 50 * (1 - distanceFromCenter * distanceFromCenter); // Parabolic curve
+      const curveOffset = 100 * (1 - distanceFromCenter * distanceFromCenter); // Increased curve radius (was 50)
 
       // Smoothly animate the x position and scale
       gsap.to(item, {
