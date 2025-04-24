@@ -61,15 +61,17 @@ window.addEventListener("load", () => {
     });
 
     // Reposition items for seamless looping
-    if (topmostPosition > -viewportHeight && topmostItemIndex >= itemCount) {
-      // Move the topmost clone to the bottom
-      const item = allItems[topmostItemIndex];
+    if (topmostPosition > 0 && topmostItemIndex >= itemCount) {
+      // Scrolling down: move the topmost clone to the bottom
       currentY -= totalHeight;
+      // Normalize currentY to stay within [-totalHeight, 0]
+      currentY = ((currentY % totalHeight) + totalHeight) % totalHeight;
       gsap.set(track, { y: currentY });
-    } else if (bottommostPosition < viewportHeight * 2 && bottommostItemIndex < itemCount) {
-      // Move the bottommost original to the top
-      const item = allItems[bottommostItemIndex];
+    } else if (bottommostPosition < viewportHeight && bottommostItemIndex < itemCount) {
+      // Scrolling up: move the bottommost original to the top
       currentY += totalHeight;
+      // Normalize currentY to stay within [-totalHeight, 0]
+      currentY = ((currentY % totalHeight) + totalHeight) % totalHeight;
       gsap.set(track, { y: currentY });
     }
   };
