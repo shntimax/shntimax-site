@@ -11,33 +11,41 @@ window.addEventListener("load", () => {
   // Clone items for infinite looping
   const itemCount = items.length;
   const originalItems = Array.from(items);
-  const originalHeight = originalItems.reduce((sum, item) => sum + item.getBoundingClientRect().height + 20, 0); // 20px gap
+  const itemHeights = originalItems.map(item => item.getBoundingClientRect().height + 20); // 20px gap
+  const totalHeight = itemHeights.reduce((sum, height) => sum + height, 0);
   for (let i = 0; i < itemCount * 2; i++) {
     const clone = originalItems[i % itemCount].cloneNode(true);
     track.appendChild(clone);
   }
 
   // Set up continuous scrolling with trackpad control
-  const totalHeight = originalHeight;
   let currentY = 0;
-  let lastScrollDirection = 1; // 1 for down, -1 for up
+  const viewportHeight = container.clientHeight;
 
   // Update positions, scaling, and curved motion for all items
   const updateItems = () => {
     const allItems = document.querySelectorAll(".story-item");
-    const viewportHeight = container.clientHeight;
+    let topmostItemIndex = -1;
+    let bottommostItemIndex = -1;
+    let topmostPosition = Infinity;
+    let bottommostPosition = -Infinity;
 
-    allItems.forEach((item) => {
+    // Find the topmost and bottommost items
+    allItems.forEach((item, index) => {
       const itemRect = item.getBoundingClientRect();
       const itemTop = itemRect.top - container.getBoundingClientRect().top;
-      const itemCenter = itemTop + itemRect.height / 2;
 
-      // Reset x position if the item is off-screen
-      if (itemTop < -itemRect.height || itemTop > viewportHeight) {
-        gsap.set(item, { x: 0 });
+      if (itemTop < topmostPosition) {
+        topmostPosition = itemTop;
+        topmostItemIndex = index;
+      }
+      if (itemTop + itemRect.height > bottommostPosition) {
+        bottommostPosition = itemTop + itemRect.height;
+        bottommostItemIndex = index;
       }
 
       // Calculate position relative to viewport center (0 = center, 1 = top/bottom)
+      const itemCenter = itemTop + itemRect.height / 2;
       const distanceFromCenter = Math.abs(itemCenter - viewportHeight / 2) / (viewportHeight / 2);
       const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
       const curveOffset = 50 * (1 - distanceFromCenter * distanceFromCenter); // Parabolic curve
@@ -51,46 +59,36 @@ window.addEventListener("load", () => {
         overwrite: true,
       });
     });
+
+    // Reposition items for seamless looping
+    if (topmostPosition > -viewportHeight && topmostItemIndex >= itemCount) {
+      // Move the topmost clone to the bottom
+      const item = allItems[topmostItemIndex];
+      currentY -= totalHeight;
+      gsap.set(track, { y: currentY });
+    } else if (bottommostPosition < viewportHeight * 2 && bottommostItemIndex < itemCount) {
+      // Move the bottommost original to the top
+      const item = allItems[bottommostItemIndex];
+      currentY += totalHeight;
+      gsap.set(track, { y: currentY });
+    }
   };
 
   // Handle trackpad scrolling
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
     const delta = e.deltaY * 0.5; // Adjust scroll speed
-    const scrollDirection = delta > 0 ? 1 : -1; // 1 for down, -1 for up
     currentY -= delta;
 
-    // Seamless infinite loop: reposition the track without jumping
-    if (scrollDirection === 1 && currentY < -totalHeight) {
-      // Scrolling down: move the track up by totalHeight
-      currentY += totalHeight;
-      gsap.set(track, { y: currentY + totalHeight }); // Temporarily offset
-      gsap.to(track, {
-        y: currentY,
-        duration: 0,
-        ease: "none",
-      });
-    } else if (scrollDirection === -1 && currentY > 0) {
-      // Scrolling up: move the track down by totalHeight
-      currentY -= totalHeight;
-      gsap.set(track, { y: currentY - totalHeight }); // Temporarily offset
-      gsap.to(track, {
-        y: currentY,
-        duration: 0,
-        ease: "none",
-      });
-    } else {
-      // Normal scrolling within bounds
-      gsap.to(track, {
-        y: currentY,
-        duration: 0.3,
-        ease: "power1.out",
-        overwrite: true,
-      });
-    }
+    // Update track position smoothly
+    gsap.to(track, {
+      y: currentY,
+      duration: 0.3,
+      ease: "power1.out",
+      overwrite: true,
+    });
 
-    lastScrollDirection = scrollDirection;
-    updateItems(); // Update scaling and position on scroll
+    updateItems(); // Update scaling, position, and loop on scroll
   });
 
   // Initial update
