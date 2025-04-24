@@ -14,12 +14,12 @@ window.addEventListener("load", () => {
     return;
   }
 
-  // "Database" of stories
+  // "Database" of stories with your photos
   const stories = [
-    { href: "/blog/story1/", img: "https://via.placeholder.com/300x200?text=Story+1", text: "A peaceful sunset..." },
-    { href: "/blog/story2/", img: "https://via.placeholder.com/300x200?text=Story+2", text: "A quiet morning..." },
-    { href: "/blog/story3/", img: "https://via.placeholder.com/300x200?text=Story+3", text: "A starry night..." },
-    { href: "/blog/story4/", img: "https://via.placeholder.com/300x200?text=Story+4", text: "A calm ocean..." },
+    { href: "/blog/story1/", img: "/assets/story1.jpg", text: "A peaceful sunset..." },
+    { href: "/blog/story2/", img: "/assets/story2.jpg", text: "A quiet morning..." },
+    { href: "/blog/story3/", img: "/assets/story3.jpg", text: "A starry night..." },
+    { href: "/blog/story4/", img: "/assets/story4.jpg", text: "A calm ocean..." },
   ];
 
   let currentIndex = 0;
