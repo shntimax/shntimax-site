@@ -1,117 +1,77 @@
 window.addEventListener("load", () => {
   const container = document.querySelector(".stories-container");
-  const previousItem = document.querySelector(".story-previous");
-  const currentItem = document.querySelector(".story-current");
-  const nextItem = document.querySelector(".story-next");
+  const track = document.querySelector(".stories-track");
+  const items = document.querySelectorAll(".story-item");
 
-  if (!container || !previousItem || !currentItem || !nextItem) {
-    console.error("Container or story items not found!", {
-      container: !!container,
-      previousItem: !!previousItem,
-      currentItem: !!currentItem,
-      nextItem: !!nextItem,
-    });
+  if (!container || !track || items.length === 0) {
+    console.error("Container, track, or items not found!");
     return;
   }
 
-  // "Database" of stories with your photos
-  const stories = [
-    { href: "/blog/story1/", img: "/assets/story1.jpg", text: "A peaceful sunset..." },
-    { href: "/blog/story2/", img: "/assets/story2.jpg", text: "A quiet morning..." },
-    { href: "/blog/story3/", img: "/assets/story3.jpg", text: "A starry night..." },
-    { href: "/blog/story4/", img: "/assets/story4.jpg", text: "A calm ocean..." },
-  ];
+  // Clone items for infinite looping
+  const itemCount = items.length;
+  const originalItems = Array.from(items);
+  const originalHeight = originalItems.reduce((sum, item) => sum + item.getBoundingClientRect().height + 20, 0); // 20px gap
+  for (let i = 0; i < itemCount * 2; i++) {
+    const clone = originalItems[i % itemCount].cloneNode(true);
+    track.appendChild(clone);
+  }
 
-  let currentIndex = 0;
-  const totalStories = stories.length;
-  let isScrolling = false; // Debounce flag
+  // Set up continuous scrolling with trackpad control
+  const totalHeight = originalHeight;
+  let currentY = 0;
 
-  // Function to update story content and positions
-  const updateStories = () => {
-    const containerHeight = container.clientHeight;
-    const itemHeight = currentItem.getBoundingClientRect().height / 1.2; // Adjust for scale
+  // Update positions, scaling, and curved motion for all items
+  const updateItems = () => {
+    const allItems = document.querySelectorAll(".story-item");
+    const viewportHeight = container.clientHeight;
 
-    // Calculate indices for previous and next stories
-    const previousIndex = (currentIndex - 1 + totalStories) % totalStories;
-    const nextIndex = (currentIndex + 1) % totalStories;
+    allItems.forEach((item) => {
+      const itemRect = item.getBoundingClientRect();
+      const itemTop = itemRect.top - container.getBoundingClientRect().top;
+      const itemCenter = itemTop + itemRect.height / 2;
 
-    // Update content
-    previousItem.href = stories[previousIndex].href;
-    previousItem.querySelector("img").src = stories[previousIndex].img;
-    previousItem.querySelector("p").textContent = stories[previousIndex].text;
+      // Reset x position if the item is off-screen
+      if (itemTop < -itemRect.height || itemTop > viewportHeight) {
+        gsap.set(item, { x: 0 });
+      }
 
-    currentItem.href = stories[currentIndex].href;
-    currentItem.querySelector("img").src = stories[currentIndex].img;
-    currentItem.querySelector("p").textContent = stories[currentIndex].text;
+      // Calculate position relative to viewport center (0 = center, 1 = top/bottom)
+      const distanceFromCenter = Math.abs(itemCenter - viewportHeight / 2) / (viewportHeight / 2);
+      const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
+      const curveOffset = 50 * (1 - distanceFromCenter * distanceFromCenter); // Parabolic curve
 
-    nextItem.href = stories[nextIndex].href;
-    nextItem.querySelector("img").src = stories[nextIndex].img;
-    nextItem.querySelector("p").textContent = stories[nextIndex].text;
-
-    // Calculate pixel-based positions
-    const centerY = 0; // Center of the container
-    const previousY = -containerHeight / 2 - itemHeight / 2 + 50; // Show only bottom corner
-    const nextY = containerHeight / 2 + itemHeight / 2 - 50; // Show only top corner
-
-    // Calculate curved motion (parabolic x offset)
-    const calculateCurveOffset = (yPosition) => {
-      const distanceFromCenter = Math.abs(yPosition) / (containerHeight / 2);
-      return 50 * (1 - distanceFromCenter * distanceFromCenter); // Parabolic curve
-    };
-
-    // Animate positions, scaling, and curved motion
-    gsap.to(previousItem, {
-      y: previousY,
-      x: calculateCurveOffset(previousY),
-      scale: 0.7,
-      duration: 0.5,
-      ease: "power1.out",
-      overwrite: true,
-    });
-
-    gsap.to(currentItem, {
-      y: centerY,
-      x: calculateCurveOffset(centerY),
-      scale: 1.2,
-      duration: 0.5,
-      ease: "power1.out",
-      overwrite: true,
-    });
-
-    gsap.to(nextItem, {
-      y: nextY,
-      x: calculateCurveOffset(nextY),
-      scale: 0.7,
-      duration: 0.5,
-      ease: "power1.out",
-      overwrite: true,
+      // Smoothly animate the x position and scale
+      gsap.to(item, {
+        scale: scale,
+        x: curveOffset,
+        duration: 0.3,
+        ease: "power1.out",
+        overwrite: true,
+      });
     });
   };
 
-  // Handle trackpad scrolling with debouncing
+  // Handle trackpad scrolling
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
-    if (isScrolling) return; // Skip if already processing a scroll
+    const delta = e.deltaY * 0.5; // Adjust scroll speed
+    currentY -= delta;
 
-    isScrolling = true;
-    const delta = e.deltaY;
+    // Seamless infinite loop using modulo
+    currentY = ((currentY % totalHeight) + totalHeight) % totalHeight - totalHeight;
 
-    if (delta > 0) {
-      // Scroll down, move to next story
-      currentIndex = (currentIndex + 1) % totalStories;
-    } else if (delta < 0) {
-      // Scroll up, move to previous story
-      currentIndex = (currentIndex - 1 + totalStories) % totalStories;
-    }
+    // Update track position smoothly
+    gsap.to(track, {
+      y: currentY,
+      duration: 0.3,
+      ease: "power1.out",
+      overwrite: true,
+    });
 
-    updateStories();
-
-    // Reset debounce flag after animation duration
-    setTimeout(() => {
-      isScrolling = false;
-    }, 500); // Match the animation duration (0.5s)
+    updateItems(); // Update scaling and position on scroll
   });
 
   // Initial update
-  updateStories();
+  updateItems();
 });
