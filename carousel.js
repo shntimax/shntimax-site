@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Set up infinite looping with trackpad control
-  const totalHeight = originalHeight; // Use the height of original items
+  const totalHeight = originalHeight; // Height of original items
   let currentY = 0;
 
   // Update positions and scaling for all items
@@ -59,9 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Seamless infinite loop
     if (currentY <= -totalHeight) {
+      const offset = currentY + totalHeight; // Calculate the offset
       currentY += totalHeight; // Wrap to top
+      gsap.set(track, { y: currentY }); // Set new position instantly
+      currentY = offset; // Adjust currentY to maintain smooth motion
     } else if (currentY >= 0) {
+      const offset = currentY - totalHeight; // Calculate the offset
       currentY -= totalHeight; // Wrap to bottom
+      gsap.set(track, { y: currentY }); // Set new position instantly
+      currentY = offset; // Adjust currentY to maintain smooth motion
     }
 
     // Update track position smoothly
