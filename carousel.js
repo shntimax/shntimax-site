@@ -10,13 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Clone items for infinite looping
   const itemCount = items.length;
+  const originalItems = Array.from(items);
+  const originalHeight = originalItems.reduce((sum, item) => sum + item.getBoundingClientRect().height + 20, 0); // 20px gap
   for (let i = 0; i < itemCount * 2; i++) {
-    const clone = items[i % itemCount].cloneNode(true);
+    const clone = originalItems[i % itemCount].cloneNode(true);
     track.appendChild(clone);
   }
 
   // Set up infinite looping with trackpad control
-  const totalHeight = track.scrollHeight / 3; // Height of original items
+  const totalHeight = originalHeight; // Use the height of original items
   let currentY = 0;
 
   // Update positions and scaling for all items
