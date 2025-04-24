@@ -24,6 +24,7 @@ window.addEventListener("load", () => {
 
   let currentIndex = 0;
   const totalStories = stories.length;
+  let isScrolling = false; // Debounce flag
 
   // Function to update story content and positions
   const updateStories = () => {
@@ -58,7 +59,7 @@ window.addEventListener("load", () => {
       scale: 0.7,
       duration: 0.5,
       ease: "power1.out",
-      onComplete: () => console.log("Previous item positioned at y:", previousY),
+      overwrite: true,
     });
 
     gsap.to(currentItem, {
@@ -66,7 +67,7 @@ window.addEventListener("load", () => {
       scale: 1.2,
       duration: 0.5,
       ease: "power1.out",
-      onComplete: () => console.log("Current item positioned at y:", centerY),
+      overwrite: true,
     });
 
     gsap.to(nextItem, {
@@ -74,13 +75,16 @@ window.addEventListener("load", () => {
       scale: 0.7,
       duration: 0.5,
       ease: "power1.out",
-      onComplete: () => console.log("Next item positioned at y:", nextY),
+      overwrite: true,
     });
   };
 
-  // Handle trackpad scrolling
+  // Handle trackpad scrolling with debouncing
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
+    if (isScrolling) return; // Skip if already processing a scroll
+
+    isScrolling = true;
     const delta = e.deltaY;
 
     if (delta > 0) {
@@ -92,6 +96,11 @@ window.addEventListener("load", () => {
     }
 
     updateStories();
+
+    // Reset debounce flag after animation duration
+    setTimeout(() => {
+      isScrolling = false;
+    }, 500); // Match the animation duration (0.5s)
   });
 
   // Initial update
