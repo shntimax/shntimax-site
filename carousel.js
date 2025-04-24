@@ -19,23 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalHeight = track.scrollHeight / 3; // Height of original items
   let currentY = 0;
 
-  // Pre-position items to avoid jumps
-  const prePositionItems = () => {
-    const allItems = document.querySelectorAll(".story-item");
-    allItems.forEach((item) => {
-      const itemRect = item.getBoundingClientRect();
-      const itemCenter = itemRect.top + itemRect.height / 2 - container.getBoundingClientRect().top;
-      const viewportHeight = container.clientHeight;
-
-      // Calculate position relative to viewport center
-      const distanceFromCenter = Math.abs(itemCenter - viewportHeight / 2) / (viewportHeight / 2);
-      const curveOffset = 50 * (1 - distanceFromCenter * distanceFromCenter);
-
-      // Set initial position
-      gsap.set(item, { x: curveOffset });
-    });
-  };
-
   // Update positions and scaling for all items
   const updateItems = () => {
     const allItems = document.querySelectorAll(".story-item");
@@ -64,30 +47,36 @@ document.addEventListener("DOMContentLoaded", () => {
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
     const delta = e.deltaY * 0.5; // Adjust scroll speed
-    const previousY = currentY;
     currentY -= delta;
 
     // Seamless infinite loop
-    const threshold = totalHeight * 0.5;
-    if (currentY <= -totalHeight - threshold) {
+    if (currentY <= -totalHeight) {
       currentY += totalHeight; // Wrap to top
-      gsap.set(track, { y: currentY });
-      prePositionItems(); // Pre-position items to avoid jumps
-    } else if (currentY >= threshold) {
+    } else if (currentY >= 0) {
       currentY -= totalHeight; // Wrap to bottom
-      gsap.set(track, { y: currentY });
-      prePositionItems(); // Pre-position items to avoid jumps
     }
 
+    // Update track position and ensure smooth looping
     gsap.to(track, {
       y: currentY,
       duration: 0.3,
       ease: "power1.out",
+      onUpdate: () => {
+        const allItems = document.querySelectorAll(".story-item");
+        allItems.forEach((item) => {
+          const itemRect = item.getBoundingClientRect();
+          const itemTop = itemRect.top - container.getBoundingClientRect().top;
+          if (itemTop < -itemRect.height || itemTop > container.clientHeight) {
+            // Item is off-screen, reset its x position to avoid jumps
+            gsap.set(item, { x: 0 });
+          }
+        });
+      },
     });
+
     updateItems(); // Update scaling and position on scroll
   });
 
-  // Initial setup
-  prePositionItems();
+  // Initial update
   updateItems();
 });
