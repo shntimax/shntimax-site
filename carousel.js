@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const allItems = document.querySelectorAll(".story-item");
     const viewportHeight = container.clientHeight;
 
-    allItems.forEach((item, index) => {
+    allItems.forEach((item) => {
       const itemRect = item.getBoundingClientRect();
       const itemCenter = itemRect.top + itemRect.height / 2 - container.getBoundingClientRect().top;
 
@@ -35,9 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
       // Create a curved path (parabolic motion)
       const curveOffset = 50 * (1 - distanceFromCenter * distanceFromCenter); // Parabolic curve
 
-      gsap.set(item, {
+      // Smoothly animate the x position and scale
+      gsap.to(item, {
         scale: scale,
-        x: curveOffset, // Apply horizontal offset for curved motion
+        x: curveOffset,
+        duration: 0.3, // Smooth transition
+        ease: "power1.out",
       });
     });
   };
@@ -49,9 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
     currentY -= delta;
 
     // Seamless infinite loop
-    if (currentY <= -totalHeight) {
+    const threshold = totalHeight * 0.5; // Adjust threshold for smoother wrapping
+    if (currentY <= -totalHeight - threshold) {
       currentY += totalHeight; // Wrap to top
-    } else if (currentY >= 0) {
+    } else if (currentY >= threshold) {
       currentY -= totalHeight; // Wrap to bottom
     }
 
