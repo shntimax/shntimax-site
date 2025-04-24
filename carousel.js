@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  gsap.registerPlugin(ScrollTrigger);
-
   const container = document.querySelector(".stories-container");
   const track = document.querySelector(".stories-track");
   const items = document.querySelectorAll(".story-item");
@@ -21,6 +19,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalHeight = track.scrollHeight / 3; // Height of original items
   let currentY = 0;
 
+  // Update positions and scaling for all items
+  const updateItems = () => {
+    const allItems = document.querySelectorAll(".story-item");
+    const viewportHeight = container.clientHeight;
+
+    allItems.forEach((item, index) => {
+      const itemRect = item.getBoundingClientRect();
+      const itemCenter = itemRect.top + itemRect.height / 2 - container.getBoundingClientRect().top;
+
+      // Calculate position relative to viewport center (0 = center, 1 = top/bottom)
+      const distanceFromCenter = Math.abs(itemCenter - viewportHeight / 2) / (viewportHeight / 2);
+      const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
+
+      // Create a curved path (parabolic motion)
+      const curveOffset = 50 * (1 - distanceFromCenter * distanceFromCenter); // Parabolic curve
+
+      gsap.set(item, {
+        scale: scale,
+        x: curveOffset, // Apply horizontal offset for curved motion
+      });
+    });
+  };
+
+  // Handle trackpad scrolling
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
     const delta = e.deltaY * 0.5; // Adjust scroll speed
@@ -34,25 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     gsap.set(track, { y: currentY });
+    updateItems(); // Update scaling and position on scroll
   });
 
-  // Enlarge effect for items (apply to all items, including clones)
-  const allItems = document.querySelectorAll(".story-item");
-  allItems.forEach((item) => {
-    gsap.to(item, {
-      scale: 1.3,
-      ease: "power1.inOut",
-      scrollTrigger: {
-        trigger: item,
-        start: "top 60%",
-        end: "top 40%",
-        scrub: 0.5,
-        toggleActions: "play reverse play reverse",
-        immediateRender: false,
-      },
-    });
-  });
-
-  // Refresh ScrollTrigger to account for cloned items
-  ScrollTrigger.refresh();
+  // Initial update
+  updateItems();
 });
