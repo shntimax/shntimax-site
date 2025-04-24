@@ -12,7 +12,7 @@ window.addEventListener("load", () => {
   const allItems = Array.from(items);
   const itemCount = allItems.length;
   const itemHeights = allItems.map(item => item.getBoundingClientRect().height);
-  const gap = 40; // Increased gap between items (was effectively 20px)
+  const gap = 100; // Increased gap between items (was effectively 20px)
   const totalItemHeight = itemHeights.reduce((sum, height) => sum + height + gap, 0) - gap; // Total height including gaps
   const avgItemHeight = totalItemHeight / itemCount; // Average height per item including gap
   let positions = allItems.map((_, index) => index * avgItemHeight); // Initial positions with increased spacing
@@ -55,7 +55,7 @@ window.addEventListener("load", () => {
       const updatedCenter = updatedTop + itemRect.height / 2;
       const distanceFromCenter = Math.abs(updatedCenter - viewportHeight / 2) / (viewportHeight / 2);
       const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
-      const curveOffset = 100 * (1 - distanceFromCenter * distanceFromCenter); // Increased curve radius (was 50)
+      const curveOffset = 75 * (1 - distanceFromCenter * distanceFromCenter); // Increased curve radius (was 50)
 
       // Smoothly animate the x position and scale
       gsap.to(item, {
