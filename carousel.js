@@ -1,11 +1,16 @@
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
   const container = document.querySelector(".stories-container");
   const previousItem = document.querySelector(".story-previous");
   const currentItem = document.querySelector(".story-current");
   const nextItem = document.querySelector(".story-next");
 
   if (!container || !previousItem || !currentItem || !nextItem) {
-    console.error("Container or story items not found!");
+    console.error("Container or story items not found!", {
+      container: !!container,
+      previousItem: !!previousItem,
+      currentItem: !!currentItem,
+      nextItem: !!nextItem,
+    });
     return;
   }
 
@@ -41,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Animate positions and scaling
     gsap.to(previousItem, {
-      y: "-40%", // Partially visible at the top
+      y: "-100%", // Move up so only the bottom corner is visible
       scale: 0.7,
       duration: 0.5,
       ease: "power1.out",
@@ -55,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     gsap.to(nextItem, {
-      y: "40%", // Partially visible at the bottom
+      y: "100%", // Move down so only the top corner is visible
       scale: 0.7,
       duration: 0.5,
       ease: "power1.out",
