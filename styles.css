@@ -83,14 +83,20 @@ main {
   font-size: 1rem;
   color: #1A3C4D;
 }
+/* Existing styles */
 .gif-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
+  margin: 40px 0; /* Increased margin for more spacing */
 }
 .work-in-progress-gif {
-  max-width: 300px; /* Adjust size as needed */
+  max-width: 300px;
   height: auto;
-  border-radius: 10px; /* Optional: Add a slight border radius */
+  border-radius: 10px;
+}
+
+/* New style for main content */
+main {
+  padding-top: 100px; /* Adjust based on header height, adds space below header */
 }
