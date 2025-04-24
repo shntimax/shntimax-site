@@ -17,30 +17,23 @@ document.addEventListener("DOMContentLoaded", () => {
     track.appendChild(clone);
   }
 
-  // Set up infinite vertical scrolling
+  // Set up infinite looping with trackpad control
   const totalHeight = track.scrollHeight / 3; // Height of original items
-  let scrollDirection = 1; // 1 for down, -1 for up
+  let currentY = 0;
 
-  const animateLoop = () => {
-    gsap.to(track, {
-      y: `+=${-totalHeight * scrollDirection}`,
-      ease: "none",
-      duration: 10,
-      onComplete: () => {
-        // Reset position seamlessly
-        gsap.set(track, { y: 0 });
-        animateLoop(); // Restart the animation
-      },
-    });
-  };
-
-  // Start the loop animation
-  animateLoop();
-
-  // Update scroll direction based on trackpad input
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
-    scrollDirection = e.deltaY > 0 ? 1 : -1; // Down or up
+    const delta = e.deltaY * 0.5; // Adjust scroll speed
+    currentY -= delta;
+
+    // Seamless infinite loop
+    if (currentY <= -totalHeight) {
+      currentY += totalHeight; // Wrap to top
+    } else if (currentY >= 0) {
+      currentY -= totalHeight; // Wrap to bottom
+    }
+
+    gsap.set(track, { y: currentY });
   });
 
   // Enlarge effect for items (apply to all items, including clones)
@@ -51,8 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ease: "power1.inOut",
       scrollTrigger: {
         trigger: item,
-        start: "top 60%", // Start scaling earlier
-        end: "top 40%",   // Peak near center
+        start: "top 60%",
+        end: "top 40%",
         scrub: 0.5,
         toggleActions: "play reverse play reverse",
         immediateRender: false,
