@@ -20,6 +20,7 @@ window.addEventListener("load", () => {
   // Set up continuous scrolling with trackpad control
   const totalHeight = originalHeight;
   let currentY = 0;
+  let lastScrollDirection = 1; // 1 for down, -1 for up
 
   // Update positions, scaling, and curved motion for all items
   const updateItems = () => {
@@ -56,19 +57,39 @@ window.addEventListener("load", () => {
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
     const delta = e.deltaY * 0.5; // Adjust scroll speed
+    const scrollDirection = delta > 0 ? 1 : -1; // 1 for down, -1 for up
     currentY -= delta;
 
-    // Seamless infinite loop using modulo
-    currentY = ((currentY % totalHeight) + totalHeight) % totalHeight - totalHeight;
+    // Seamless infinite loop: reposition the track without jumping
+    if (scrollDirection === 1 && currentY < -totalHeight) {
+      // Scrolling down: move the track up by totalHeight
+      currentY += totalHeight;
+      gsap.set(track, { y: currentY + totalHeight }); // Temporarily offset
+      gsap.to(track, {
+        y: currentY,
+        duration: 0,
+        ease: "none",
+      });
+    } else if (scrollDirection === -1 && currentY > 0) {
+      // Scrolling up: move the track down by totalHeight
+      currentY -= totalHeight;
+      gsap.set(track, { y: currentY - totalHeight }); // Temporarily offset
+      gsap.to(track, {
+        y: currentY,
+        duration: 0,
+        ease: "none",
+      });
+    } else {
+      // Normal scrolling within bounds
+      gsap.to(track, {
+        y: currentY,
+        duration: 0.3,
+        ease: "power1.out",
+        overwrite: true,
+      });
+    }
 
-    // Update track position smoothly
-    gsap.to(track, {
-      y: currentY,
-      duration: 0.3,
-      ease: "power1.out",
-      overwrite: true,
-    });
-
+    lastScrollDirection = scrollDirection;
     updateItems(); // Update scaling and position on scroll
   });
 
