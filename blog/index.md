@@ -1,8 +1,6 @@
 ---
-title: ShntiMax Stories
 layout: main
 ---
-My thoughts and tales.
 <div class="stories-container">
   <div class="stories-track">
     <a href="/blog/story1/" class="story-item">
