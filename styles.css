@@ -88,15 +88,45 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 40px 0; /* Increased margin for more spacing */
+  margin: 40px 0;
 }
 .work-in-progress-gif {
   max-width: 300px;
   height: auto;
   border-radius: 10px;
 }
-
-/* New style for main content */
 main {
-  padding-top: 100px; /* Adjust based on header height, adds space below header */
+  padding-top: 100px;
+}
+
+/* New styles for About Me section */
+.about-me {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+  padding: 0 20px;
+  max-width: 800px; /* Limit width for readability */
+  margin-left: auto;
+  margin-right: auto;
+}
+.about-me-photo {
+  width: 150px; /* Adjust size as needed */
+  height: 150px;
+  object-fit: cover; /* Ensure the photo fits nicely */
+  border-radius: 50%; /* Circular photo */
+}
+.about-me-text {
+  flex: 1; /* Take remaining space */
+}
+.about-me-text h2 {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  color: #1A3C4D;
+}
+.about-me-text p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
 }
