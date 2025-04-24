@@ -8,45 +8,50 @@ window.addEventListener("load", () => {
     return;
   }
 
-  // Clone items for infinite looping
-  const itemCount = items.length;
-  const originalItems = Array.from(items);
-  const itemHeights = originalItems.map(item => item.getBoundingClientRect().height + 20); // 20px gap
+  // Prepare items for infinite looping (no cloning, we'll reposition originals)
+  const allItems = Array.from(items);
+  const itemCount = allItems.length;
+  const itemHeights = allItems.map(item => item.getBoundingClientRect().height + 20); // 20px gap
   const totalHeight = itemHeights.reduce((sum, height) => sum + height, 0);
-  for (let i = 0; i < itemCount * 2; i++) {
-    const clone = originalItems[i % itemCount].cloneNode(true);
-    track.appendChild(clone);
-  }
+  let positions = allItems.map((_, index) => index * (totalHeight / itemCount)); // Initial positions
 
-  // Set up continuous scrolling with trackpad control
-  let currentY = 0;
-  const viewportHeight = container.clientHeight;
+  // Set initial positions
+  allItems.forEach((item, index) => {
+    gsap.set(item, { y: positions[index] });
+  });
 
   // Update positions, scaling, and curved motion for all items
   const updateItems = () => {
-    const allItems = document.querySelectorAll(".story-item");
-    let topmostItemIndex = -1;
-    let bottommostItemIndex = -1;
-    let topmostPosition = Infinity;
-    let bottommostPosition = -Infinity;
+    const viewportHeight = container.clientHeight;
 
-    // Find the topmost and bottommost items
     allItems.forEach((item, index) => {
+      let itemY = positions[index];
       const itemRect = item.getBoundingClientRect();
-      const itemTop = itemRect.top - container.getBoundingClientRect().top;
+      const itemTop = itemY - container.getBoundingClientRect().top;
+      const itemCenter = itemTop + itemRect.height / 2;
 
-      if (itemTop < topmostPosition) {
-        topmostPosition = itemTop;
-        topmostItemIndex = index;
+      // Infinite loop: reposition items as they move out of view
+      if (itemTop > viewportHeight + itemRect.height) {
+        // Item is below the viewport, move it to the top
+        const topmostY = Math.min(...positions.filter((_, i) => i !== index));
+        positions[index] = topmostY - (itemRect.height + 20);
+      } else if (itemTop < -itemRect.height) {
+        // Item is above the viewport, move it to the bottom
+        const bottommostY = Math.max(...positions.filter((_, i) => i !== index));
+        positions[index] = bottommostY + (itemRect.height + 20);
       }
-      if (itemTop + itemRect.height > bottommostPosition) {
-        bottommostPosition = itemTop + itemRect.height;
-        bottommostItemIndex = index;
-      }
+
+      // Update the item's position
+      gsap.to(item, {
+        y: positions[index],
+        duration: 0,
+        ease: "none",
+      });
 
       // Calculate position relative to viewport center (0 = center, 1 = top/bottom)
-      const itemCenter = itemTop + itemRect.height / 2;
-      const distanceFromCenter = Math.abs(itemCenter - viewportHeight / 2) / (viewportHeight / 2);
+      const updatedTop = positions[index] - container.getBoundingClientRect().top;
+      const updatedCenter = updatedTop + itemRect.height / 2;
+      const distanceFromCenter = Math.abs(updatedCenter - viewportHeight / 2) / (viewportHeight / 2);
       const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
       const curveOffset = 50 * (1 - distanceFromCenter * distanceFromCenter); // Parabolic curve
 
@@ -59,38 +64,19 @@ window.addEventListener("load", () => {
         overwrite: true,
       });
     });
-
-    // Reposition items for seamless looping
-    if (topmostPosition > 0 && topmostItemIndex >= itemCount) {
-      // Scrolling down: move the topmost clone to the bottom
-      currentY -= totalHeight;
-      // Normalize currentY to stay within [-totalHeight, 0]
-      currentY = ((currentY % totalHeight) + totalHeight) % totalHeight;
-      gsap.set(track, { y: currentY });
-    } else if (bottommostPosition < viewportHeight && bottommostItemIndex < itemCount) {
-      // Scrolling up: move the bottommost original to the top
-      currentY += totalHeight;
-      // Normalize currentY to stay within [-totalHeight, 0]
-      currentY = ((currentY % totalHeight) + totalHeight) % totalHeight;
-      gsap.set(track, { y: currentY });
-    }
   };
 
   // Handle trackpad scrolling
+  let scrollVelocity = 0;
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
     const delta = e.deltaY * 0.5; // Adjust scroll speed
-    currentY -= delta;
+    scrollVelocity = delta;
 
-    // Update track position smoothly
-    gsap.to(track, {
-      y: currentY,
-      duration: 0.3,
-      ease: "power1.out",
-      overwrite: true,
-    });
+    // Update positions based on scroll
+    positions = positions.map(pos => pos - scrollVelocity);
 
-    updateItems(); // Update scaling, position, and loop on scroll
+    updateItems(); // Update positions, scaling, and loop on scroll
   });
 
   // Initial update

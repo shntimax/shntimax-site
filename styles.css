@@ -59,18 +59,18 @@ main {
   align-items: center;
 }
 .stories-track {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 0;
-  will-change: transform;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 .story-item {
   width: 300px;
   text-decoration: none;
   color: #333;
   text-align: center;
+  position: absolute; /* Allow GSAP to position items */
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
 }
 .story-item img {
   width: 100%;
