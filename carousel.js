@@ -26,7 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     allItems.forEach((item) => {
       const itemRect = item.getBoundingClientRect();
-      const itemCenter = itemRect.top + itemRect.height / 2 - container.getBoundingClientRect().top;
+      const itemTop = itemRect.top - container.getBoundingClientRect().top;
+      const itemCenter = itemTop + itemRect.height / 2;
+
+      // Reset x position if the item is off-screen
+      if (itemTop < -itemRect.height || itemTop > viewportHeight) {
+        gsap.set(item, { x: 0 });
+      }
 
       // Calculate position relative to viewport center (0 = center, 1 = top/bottom)
       const distanceFromCenter = Math.abs(itemCenter - viewportHeight / 2) / (viewportHeight / 2);
@@ -56,22 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
       currentY -= totalHeight; // Wrap to bottom
     }
 
-    // Update track position and ensure smooth looping
+    // Update track position smoothly
     gsap.to(track, {
       y: currentY,
       duration: 0.3,
       ease: "power1.out",
-      onUpdate: () => {
-        const allItems = document.querySelectorAll(".story-item");
-        allItems.forEach((item) => {
-          const itemRect = item.getBoundingClientRect();
-          const itemTop = itemRect.top - container.getBoundingClientRect().top;
-          if (itemTop < -itemRect.height || itemTop > container.clientHeight) {
-            // Item is off-screen, reset its x position to avoid jumps
-            gsap.set(item, { x: 0 });
-          }
-        });
-      },
     });
 
     updateItems(); // Update scaling and position on scroll
