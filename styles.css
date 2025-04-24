@@ -83,3 +83,14 @@ main {
   font-size: 1rem;
   color: #1A3C4D;
 }
+.gif-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+.work-in-progress-gif {
+  max-width: 300px; /* Adjust size as needed */
+  height: auto;
+  border-radius: 10px; /* Optional: Add a slight border radius */
+}
