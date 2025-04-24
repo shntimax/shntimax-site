@@ -53,18 +53,18 @@ main {
   position: fixed;
   top: 80px;
   left: 0;
-  overflow: hidden; /* Hide overflow to prevent scrollbar */
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .stories-track {
   position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  height: 100%;
 }
 .story-item {
   position: absolute;
@@ -72,12 +72,14 @@ main {
   text-decoration: none;
   color: #333;
   text-align: center;
-  transform: translateY(0);
+  top: 50%; /* Initial position, will be adjusted by GSAP */
+  transform: translateY(-50%);
 }
 .story-item img {
   width: 100%;
   height: auto;
   border-radius: 5px;
+  display: block; /* Ensure images are visible */
 }
 .story-item p {
   margin: 10px 0 0;

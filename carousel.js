@@ -27,6 +27,9 @@ window.addEventListener("load", () => {
 
   // Function to update story content and positions
   const updateStories = () => {
+    const containerHeight = container.clientHeight;
+    const itemHeight = currentItem.getBoundingClientRect().height;
+
     // Calculate indices for previous and next stories
     const previousIndex = (currentIndex - 1 + totalStories) % totalStories;
     const nextIndex = (currentIndex + 1) % totalStories;
@@ -44,26 +47,34 @@ window.addEventListener("load", () => {
     nextItem.querySelector("img").src = stories[nextIndex].img;
     nextItem.querySelector("p").textContent = stories[nextIndex].text;
 
+    // Calculate pixel-based positions
+    const centerY = 0; // Center of the container
+    const previousY = -containerHeight / 2 + itemHeight / 2; // Show only bottom corner
+    const nextY = containerHeight / 2 - itemHeight / 2; // Show only top corner
+
     // Animate positions and scaling
     gsap.to(previousItem, {
-      y: "-100%", // Move up so only the bottom corner is visible
+      y: previousY,
       scale: 0.7,
       duration: 0.5,
       ease: "power1.out",
+      onComplete: () => console.log("Previous item positioned at y:", previousY),
     });
 
     gsap.to(currentItem, {
-      y: "0%", // Centered
-      scale: 1.2, // Large in the middle
+      y: centerY,
+      scale: 1.2,
       duration: 0.5,
       ease: "power1.out",
+      onComplete: () => console.log("Current item positioned at y:", centerY),
     });
 
     gsap.to(nextItem, {
-      y: "100%", // Move down so only the top corner is visible
+      y: nextY,
       scale: 0.7,
       duration: 0.5,
       ease: "power1.out",
+      onComplete: () => console.log("Next item positioned at y:", nextY),
     });
   };
 
