@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Clone items for infinite looping (double the content)
+  // Clone items for infinite looping
   const itemCount = items.length;
   for (let i = 0; i < itemCount; i++) {
     const clone = items[i].cloneNode(true);
@@ -19,10 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Set up seamless infinite looping
   const totalHeight = track.scrollHeight / 2; // Height of original items
-  let scrollPos = 0;
-
   gsap.to(track, {
-    y: () => -(totalHeight),
+    y: `-=${totalHeight}px`,
     ease: "none",
     scrollTrigger: {
       trigger: container,
@@ -30,12 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
       end: () => `+=${totalHeight}`,
       scrub: true,
       pin: true,
-      onUpdate: (self) => {
-        scrollPos = self.progress * totalHeight;
-        if (scrollPos >= totalHeight) {
-          gsap.set(track, { y: 0 }); // Reset position
-          self.progress = 0; // Reset scroll progress
-        }
+      modifiers: {
+        y: (y) => {
+          const yNum = parseFloat(y);
+          return ((yNum % totalHeight) + totalHeight) % totalHeight - totalHeight;
+        },
       },
     },
   });
@@ -44,15 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const allItems = document.querySelectorAll(".story-item");
   allItems.forEach((item) => {
     gsap.to(item, {
-      scale: 1.2,
+      scale: 1.3, // Slightly larger scaling for visibility
       ease: "power1.inOut",
       scrollTrigger: {
         trigger: item,
-        start: "top 70%", // Start scaling earlier
-        end: "top 30%",   // Peak at middle, then shrink
-        scrub: 1,         // Smooth scaling tied to scroll
-        toggleActions: "play reverse play reverse",
-        markers: false,   // Set to true for debugging
+        start: "top center", // Start scaling when item reaches center
+        end: "bottom center", // End when it leaves center
+        scrub: 0.5, // Smoother scaling
       },
     });
   });
