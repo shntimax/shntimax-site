@@ -57,18 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const delta = e.deltaY * 0.5; // Adjust scroll speed
     currentY -= delta;
 
-    // Seamless infinite loop
-    if (currentY <= -totalHeight) {
-      const offset = currentY + totalHeight; // Calculate the offset
-      currentY += totalHeight; // Wrap to top
-      gsap.set(track, { y: currentY }); // Set new position instantly
-      currentY = offset; // Adjust currentY to maintain smooth motion
-    } else if (currentY >= 0) {
-      const offset = currentY - totalHeight; // Calculate the offset
-      currentY -= totalHeight; // Wrap to bottom
-      gsap.set(track, { y: currentY }); // Set new position instantly
-      currentY = offset; // Adjust currentY to maintain smooth motion
-    }
+    // Seamless infinite loop using modulo
+    currentY = ((currentY % totalHeight) + totalHeight) % totalHeight - totalHeight;
 
     // Update track position smoothly
     gsap.to(track, {
