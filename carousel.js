@@ -29,7 +29,7 @@ window.addEventListener("load", () => {
   // Function to update story content and positions
   const updateStories = () => {
     const containerHeight = container.clientHeight;
-    const itemHeight = currentItem.getBoundingClientRect().height;
+    const itemHeight = currentItem.getBoundingClientRect().height / 1.2; // Adjust for scale
 
     // Calculate indices for previous and next stories
     const previousIndex = (currentIndex - 1 + totalStories) % totalStories;
@@ -50,12 +50,19 @@ window.addEventListener("load", () => {
 
     // Calculate pixel-based positions
     const centerY = 0; // Center of the container
-    const previousY = -containerHeight / 2 + itemHeight / 2; // Show only bottom corner
-    const nextY = containerHeight / 2 - itemHeight / 2; // Show only top corner
+    const previousY = -containerHeight / 2 - itemHeight / 2 + 50; // Show only bottom corner
+    const nextY = containerHeight / 2 + itemHeight / 2 - 50; // Show only top corner
 
-    // Animate positions and scaling
+    // Calculate curved motion (parabolic x offset)
+    const calculateCurveOffset = (yPosition) => {
+      const distanceFromCenter = Math.abs(yPosition) / (containerHeight / 2);
+      return 50 * (1 - distanceFromCenter * distanceFromCenter); // Parabolic curve
+    };
+
+    // Animate positions, scaling, and curved motion
     gsap.to(previousItem, {
       y: previousY,
+      x: calculateCurveOffset(previousY),
       scale: 0.7,
       duration: 0.5,
       ease: "power1.out",
@@ -64,6 +71,7 @@ window.addEventListener("load", () => {
 
     gsap.to(currentItem, {
       y: centerY,
+      x: calculateCurveOffset(centerY),
       scale: 1.2,
       duration: 0.5,
       ease: "power1.out",
@@ -72,6 +80,7 @@ window.addEventListener("load", () => {
 
     gsap.to(nextItem, {
       y: nextY,
+      x: calculateCurveOffset(nextY),
       scale: 0.7,
       duration: 0.5,
       ease: "power1.out",
