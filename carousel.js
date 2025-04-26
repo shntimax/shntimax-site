@@ -12,7 +12,7 @@ window.addEventListener("load", () => {
   const allItems = Array.from(items);
   const itemCount = allItems.length;
   const itemHeights = allItems.map(item => item.getBoundingClientRect().height);
-  const gap = 200; // Gap between items (updated to your value)
+  const gap = 200; // Gap between items
   let positions = [];
   let cumulativeHeight = 0;
 
@@ -21,6 +21,9 @@ window.addEventListener("load", () => {
     positions[index] = cumulativeHeight;
     cumulativeHeight += itemHeights[index] + gap;
   });
+
+  // Total height of one full cycle (used for wrapping)
+  const totalCycleHeight = cumulativeHeight;
 
   // Set initial positions
   allItems.forEach((item, index) => {
@@ -37,15 +40,13 @@ window.addEventListener("load", () => {
       const itemTop = itemY - container.getBoundingClientRect().top;
       const itemCenter = itemTop + itemRect.height / 2;
 
-      // Infinite loop: reposition items as they move out of view
+      // Normalize positions to maintain consistent gaps
       if (itemTop > viewportHeight + itemRect.height) {
         // Item is below the viewport, move it to the top
-        const topmostY = Math.min(...positions.filter((_, i) => i !== index));
-        positions[index] = topmostY - (itemRect.height + gap);
+        positions[index] -= totalCycleHeight;
       } else if (itemTop < -itemRect.height - 100) {
         // Item is above the viewport, move it to the bottom
-        const bottommostY = Math.max(...positions.filter((_, i) => i !== index));
-        positions[index] = bottommostY + (itemRect.height + gap);
+        positions[index] += totalCycleHeight;
       }
 
       // Update the item's position instantly to avoid intermediate states
