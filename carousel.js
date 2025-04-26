@@ -12,7 +12,7 @@ window.addEventListener("load", () => {
   const allItems = Array.from(items);
   const itemCount = allItems.length;
   const itemHeights = allItems.map(item => item.getBoundingClientRect().height);
-  const gap = 100; // Gap between items (you may have adjusted this)
+  const gap = 200; // Gap between items (you may have adjusted this)
   const totalItemHeight = itemHeights.reduce((sum, height) => sum + height + gap, 0) - gap; // Total height including gaps
   const avgItemHeight = totalItemHeight / itemCount; // Average height per item including gap
   let positions = allItems.map((_, index) => index * avgItemHeight); // Initial positions with increased spacing
