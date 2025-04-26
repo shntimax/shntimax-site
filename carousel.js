@@ -12,10 +12,15 @@ window.addEventListener("load", () => {
   const allItems = Array.from(items);
   const itemCount = allItems.length;
   const itemHeights = allItems.map(item => item.getBoundingClientRect().height);
-  const gap = 40; // Gap between items (you may have adjusted this)
-  const totalItemHeight = itemHeights.reduce((sum, height) => sum + height + gap, 0) - gap; // Total height including gaps
-  const avgItemHeight = totalItemHeight / itemCount; // Average height per item including gap
-  let positions = allItems.map((_, index) => index * avgItemHeight); // Initial positions
+  const gap = 40; // Gap between items (adjust as needed)
+  let positions = [];
+  let cumulativeHeight = 0;
+
+  // Calculate initial positions with proper gaps
+  allItems.forEach((item, index) => {
+    positions[index] = cumulativeHeight;
+    cumulativeHeight += itemHeights[index] + gap;
+  });
 
   // Set initial positions
   allItems.forEach((item, index) => {
@@ -35,24 +40,29 @@ window.addEventListener("load", () => {
       // Infinite loop: reposition items as they move out of view
       let newY = positions[index];
       let shouldReposition = false;
-      let opacity = 1;
 
       if (itemTop > viewportHeight + itemRect.height) {
         // Item is below the viewport, move it to the top
         const topmostY = Math.min(...positions.filter((_, i) => i !== index));
         newY = topmostY - (itemRect.height + gap);
         shouldReposition = true;
-        opacity = 0; // Hide during repositioning
-      } else if (itemTop < -itemRect.height - 50) { // Added buffer to delay repositioning
+      } else if (itemTop < -itemRect.height - 100) { // Increased buffer to ensure item is fully out of view
         // Item is above the viewport, move it to the bottom
         const bottommostY = Math.max(...positions.filter((_, i) => i !== index));
         newY = bottommostY + (itemRect.height + gap);
         shouldReposition = true;
-        opacity = 0; // Hide during repositioning
       }
 
       if (shouldReposition) {
+        // Instantly reposition the item while hidden
+        gsap.set(item, { opacity: 0 });
         positions[index] = newY;
+        gsap.set(item, { y: positions[index] });
+        gsap.to(item, {
+          opacity: 1,
+          duration: 0.1,
+          ease: "power1.out",
+        });
       }
 
       // Calculate position relative to viewport center (0 = center, 1 = top/bottom)
@@ -62,22 +72,16 @@ window.addEventListener("load", () => {
       const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
       const curveOffset = 100 * (1 - distanceFromCenter * distanceFromCenter); // Curve radius
 
-      // Update all properties in a single animation to avoid flickering
-      gsap.to(item, {
-        y: positions[index],
-        x: curveOffset,
-        scale: scale,
-        opacity: opacity,
-        duration: 0.1, // Short duration for all properties
-        ease: "power1.out",
-        overwrite: true,
-        onComplete: () => {
-          // Restore opacity after repositioning
-          if (shouldReposition) {
-            gsap.set(item, { opacity: 1 });
-          }
-        },
-      });
+      // Smoothly animate the x position and scale (only if not repositioning)
+      if (!shouldReposition) {
+        gsap.to(item, {
+          x: curveOffset,
+          scale: scale,
+          duration: 0.3,
+          ease: "power1.out",
+          overwrite: true,
+        });
+      }
     });
   };
 
