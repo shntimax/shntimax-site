@@ -12,78 +12,57 @@ window.addEventListener("load", () => {
   const allItems = Array.from(items);
   const itemCount = allItems.length;
   const itemHeights = allItems.map(item => item.getBoundingClientRect().height);
-  const gap = 40; // Gap between items (adjust as needed)
-  let positions = [];
-  let cumulativeHeight = 0;
-
-  // Calculate initial positions with proper gaps
-  allItems.forEach((item, index) => {
-    positions[index] = cumulativeHeight;
-    cumulativeHeight += itemHeights[index] + gap;
-  });
+  const gap = 70; // Gap between items (you may have adjusted this)
+  const totalItemHeight = itemHeights.reduce((sum, height) => sum + height + gap, 0) - gap; // Total height including gaps
+  const avgItemHeight = totalItemHeight / itemCount; // Average height per item including gap
+  let positions = allItems.map((_, index) => index * avgItemHeight); // Initial positions with increased spacing
 
   // Set initial positions
   allItems.forEach((item, index) => {
     gsap.set(item, { y: positions[index] });
   });
 
-  // Update positions, scaling, and curved motion for all items
-  const updateItems = () => {
-    const viewportHeight = container.clientHeight;
+ // Update positions, scaling, and curved motion for all items
+const updateItems = () => {
+  const viewportHeight = container.clientHeight;
 
-    allItems.forEach((item, index) => {
-      let itemY = positions[index];
-      const itemRect = item.getBoundingClientRect();
-      const itemTop = itemY - container.getBoundingClientRect().top;
-      const itemCenter = itemTop + itemRect.height / 2;
+  allItems.forEach((item, index) => {
+    let itemY = positions[index];
+    const itemRect = item.getBoundingClientRect();
+    const itemTop = itemY - container.getBoundingClientRect().top;
+    const itemCenter = itemTop + itemRect.height / 2;
 
-      // Infinite loop: reposition items as they move out of view
-      let newY = positions[index];
-      let shouldReposition = false;
+    // Infinite loop: reposition items as they move out of view
+    if (itemTop > viewportHeight + itemRect.height) {
+      // Item is below the viewport, move it to the top
+      const topmostY = Math.min(...positions.filter((_, i) => i !== index));
+      positions[index] = topmostY - (itemRect.height + gap);
+    } else if (itemTop < -itemRect.height - 100) { // Added buffer to delay repositioning
+      // Item is above the viewport, move it to the bottom
+      const bottommostY = Math.max(...positions.filter((_, i) => i !== index));
+      positions[index] = bottommostY + (itemRect.height + gap);
+    }
 
-      if (itemTop > viewportHeight + itemRect.height) {
-        // Item is below the viewport, move it to the top
-        const topmostY = Math.min(...positions.filter((_, i) => i !== index));
-        newY = topmostY - (itemRect.height + gap);
-        shouldReposition = true;
-      } else if (itemTop < -itemRect.height - 100) { // Increased buffer to ensure item is fully out of view
-        // Item is above the viewport, move it to the bottom
-        const bottommostY = Math.max(...positions.filter((_, i) => i !== index));
-        newY = bottommostY + (itemRect.height + gap);
-        shouldReposition = true;
-      }
+    // Update the item's position instantly to avoid intermediate states
+    gsap.set(item, { y: positions[index] }); // Changed from gsap.to to gsap.set for instant update
 
-      if (shouldReposition) {
-        // Instantly reposition the item while hidden
-        gsap.set(item, { opacity: 0 });
-        positions[index] = newY;
-        gsap.set(item, { y: positions[index] });
-        gsap.to(item, {
-          opacity: 1,
-          duration: 0.1,
-          ease: "power1.out",
-        });
-      }
+    // Calculate position relative to viewport center (0 = center, 1 = top/bottom)
+    const updatedTop = positions[index] - container.getBoundingClientRect().top;
+    const updatedCenter = updatedTop + itemRect.height / 2;
+    const distanceFromCenter = Math.abs(updatedCenter - viewportHeight / 2) / (viewportHeight / 2);
+    const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
+    const curveOffset = 100 * (1 - distanceFromCenter * distanceFromCenter); // Increased curve radius
 
-      // Calculate position relative to viewport center (0 = center, 1 = top/bottom)
-      const updatedTop = positions[index] - container.getBoundingClientRect().top;
-      const updatedCenter = updatedTop + itemRect.height / 2;
-      const distanceFromCenter = Math.abs(updatedCenter - viewportHeight / 2) / (viewportHeight / 2);
-      const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
-      const curveOffset = 100 * (1 - distanceFromCenter * distanceFromCenter); // Curve radius
-
-      // Smoothly animate the x position and scale (only if not repositioning)
-      if (!shouldReposition) {
-        gsap.to(item, {
-          x: curveOffset,
-          scale: scale,
-          duration: 0.3,
-          ease: "power1.out",
-          overwrite: true,
-        });
-      }
+    // Smoothly animate the x position and scale
+    gsap.to(item, {
+      scale: scale,
+      x: curveOffset,
+      duration: 0.3,
+      ease: "power1.out",
+      overwrite: true,
     });
-  };
+  });
+};
 
   // Handle trackpad scrolling
   let scrollVelocity = 0;
@@ -93,6 +72,7 @@ window.addEventListener("load", () => {
     scrollVelocity = delta;
 
     // Update positions based on scroll
+    repositionedLastUpdate = false; // Reset flag
     positions = positions.map(pos => pos - scrollVelocity);
 
     updateItems(); // Update positions, scaling, and loop on scroll
