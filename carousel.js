@@ -12,7 +12,7 @@ window.addEventListener("load", () => {
   const allItems = Array.from(items);
   const itemCount = allItems.length;
   const itemHeights = allItems.map(item => item.getBoundingClientRect().height);
-  const gap = 150; // Gap between items
+  const gap = 200; // Gap between items
   let positions = [];
   let cumulativeHeight = 0;
 
@@ -47,6 +47,9 @@ window.addEventListener("load", () => {
       const scale = 1 + (0.3 * (1 - distanceFromCenter)); // Scale from 1 to 1.3
       const curveOffset = 100 * (1 - distanceFromCenter * distanceFromCenter); // Curve radius
 
+      // Calculate text opacity (1 at center, 0 at top/bottom)
+      const textOpacity = 1 - distanceFromCenter; // 1 when centered, 0 at edges
+
       // Infinite loop: reposition items as they move out of view
       let shouldReposition = false;
       if (itemTop > viewportHeight + itemRect.height) {
@@ -74,12 +77,20 @@ window.addEventListener("load", () => {
           x: newCurveOffset,
           scale: newScale,
         });
+        // Ensure text is hidden when repositioned
+        gsap.set(item.querySelector(".story-text"), { opacity: 0 });
       } else {
-        // Smoothly animate the x position and scale for items not being repositioned
+        // Smoothly animate the x position, scale, and text opacity for items not being repositioned
         gsap.to(item, {
           y: positions[index],
           scale: scale,
           x: curveOffset,
+          duration: 0.3,
+          ease: "power1.out",
+          overwrite: true,
+        });
+        gsap.to(item.querySelector(".story-text"), {
+          opacity: textOpacity,
           duration: 0.3,
           ease: "power1.out",
           overwrite: true,

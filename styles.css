@@ -68,9 +68,12 @@ main {
   text-decoration: none;
   color: #333;
   text-align: center;
-  position: absolute; /* Allow GSAP to position items */
+  position: absolute;
   left: 50%;
-  transform: translateX(-50%); /* Center horizontally */
+  transform: translateX(-50%);
+  display: flex; /* Added to align image and text side by side */
+  align-items: center;
+  gap: 20px; /* Space between text and image */
 }
 .story-item img {
   width: 100%;
@@ -78,17 +81,25 @@ main {
   border-radius: 5px;
   display: block;
 }
-.story-item p {
-  margin: 10px 0 0;
-  font-size: 1rem;
+.story-text {
+  text-align: left;
   color: #1A3C4D;
+  opacity: 0; /* Default to hidden, will animate in with JS */
 }
-/* Existing styles */
+.story-text h3 {
+  margin: 0 0 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.story-text p {
+  margin: 0;
+  font-size: 1rem;
+}
 .gif-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 40px 0;
+  margin: 20px 0;
 }
 .work-in-progress-gif {
   max-width: 300px;
@@ -96,10 +107,8 @@ main {
   border-radius: 10px;
 }
 main {
-  padding-top: 100px;
+  padding-top: 60px;
 }
-
-/* New styles for About Me section */
 .about-me {
   display: flex;
   align-items: center;
@@ -107,18 +116,18 @@ main {
   gap: 20px;
   margin: 40px 0;
   padding: 0 20px;
-  max-width: 800px; /* Limit width for readability */
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
 .about-me-photo {
-  width: 150px; /* Adjust size as needed */
+  width: 150px;
   height: 150px;
-  object-fit: cover; /* Ensure the photo fits nicely */
-  border-radius: 50%; /* Circular photo */
+  object-fit: cover;
+  border-radius: 50%;
 }
 .about-me-text {
-  flex: 1; /* Take remaining space */
+  flex: 1;
 }
 .about-me-text h2 {
   margin: 0 0 10px;
