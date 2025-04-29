@@ -1,7 +1,7 @@
 /* Global Styles to Ensure Scrolling and Hide Scrollbar */
 html, body {
   height: 100%;
-  margin: 0; /* Ensure no default margins */
+  margin: 0;
   padding: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -90,20 +90,20 @@ nav a:hover {
   font-size: 1rem;
 }
 
-/* Photo Gallery (updated to stretch fully edge-to-edge) */
+/* Photo Gallery (updated for repeatable layout) */
 .photo-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-  grid-template-rows: 1fr 1fr; /* Two rows, each taking half the height */
+  grid-auto-rows: minmax(50vh, 1fr); /* Each row takes at least half the viewport height */
   gap: 0; /* No gap between items */
-  margin: 0; /* No margin */
-  padding: 0; /* No padding */
-  background: #F8F8F8; /* Off-white background */
-  width: 100vw; /* Use viewport width to ensure edge-to-edge */
-  height: calc(100vh - 30px); /* Full viewport height minus header */
+  margin: 0;
+  padding: 0;
+  background: #F8F8F8;
+  width: 100vw;
+  min-height: calc(100vh - 30px); /* Ensure at least full viewport height minus header */
   position: relative;
-  top: 30px; /* Start below the fixed header */
-  left: 0; /* Ensure it starts at the left edge */
+  top: 30px;
+  left: 0;
   box-sizing: border-box;
 }
 .photo-item {
@@ -111,30 +111,31 @@ nav a:hover {
   width: 100%;
   height: 100%;
 }
-.photo-item:nth-child(1) { /* Vietnam (landscape) */
+/* Default layout for the main gallery page */
+.photo-gallery .photo-item:nth-child(5n+1) { /* Every 5th item starting from 1 (e.g., 1, 6) */
   grid-column: 1 / 3; /* Span first two columns */
-  grid-row: 1; /* First row */
+  grid-row: auto;
 }
-.photo-item:nth-child(2) { /* Abandoned (portrait) */
-  grid-column: 3; /* Third column */
-  grid-row: 1; /* First row */
+.photo-gallery .photo-item:nth-child(5n+2) { /* Every 5th item starting from 2 (e.g., 2, 7) */
+  grid-column: 3;
+  grid-row: auto;
 }
-.photo-item:nth-child(3) { /* First portrait in second row */
-  grid-column: 1; /* First column */
-  grid-row: 2; /* Second row */
+.photo-gallery .photo-item:nth-child(5n+3) { /* Every 5th item starting from 3 (e.g., 3, 8) */
+  grid-column: 1;
+  grid-row: auto;
 }
-.photo-item:nth-child(4) { /* Second portrait in second row */
-  grid-column: 2; /* Second column */
-  grid-row: 2; /* Second row */
+.photo-gallery .photo-item:nth-child(5n+4) { /* Every 5th item starting from 4 (e.g., 4, 9) */
+  grid-column: 2;
+  grid-row: auto;
 }
-.photo-item:nth-child(5) { /* Third portrait in second row */
-  grid-column: 3; /* Third column */
-  grid-row: 2; /* Second row */
+.photo-gallery .photo-item:nth-child(5n+5) { /* Every 5th item starting from 5 (e.g., 5, 10) */
+  grid-column: 3;
+  grid-row: auto;
 }
 .photo-item img {
   width: 100%;
-  height: 100%; /* Fill the grid cell height */
-  object-fit: cover; /* Scale image to fill the space, cropping if necessary */
+  height: 100%;
+  object-fit: cover;
   display: block;
   transition: opacity 0.3s ease;
 }
@@ -144,7 +145,7 @@ nav a:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* Dark overlay on hover */
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -159,10 +160,10 @@ nav a:hover {
   margin: 0;
 }
 .photo-item:hover img {
-  opacity: 0.7; /* Darken image on hover */
+  opacity: 0.7;
 }
 .photo-item:hover .photo-overlay {
-  opacity: 1; /* Show overlay on hover */
+  opacity: 1;
 }
 
 /* Individual Story Pages (unchanged) */
@@ -203,11 +204,10 @@ nav a:hover {
 main {
   padding-top: 30px;
   min-height: 100vh;
-  margin: 0; /* Remove any default margin */
-  padding-left: 0; /* Remove padding */
-  padding-right: 0; /* Remove padding */
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
-/* Ensure the gallery page has no padding or margin */
 main:has(.photo-gallery) {
   padding: 0;
   margin: 0;
@@ -268,23 +268,19 @@ main:has(.photo-gallery) {
     font-size: 0.8rem;
   }
   .photo-gallery {
-    grid-template-columns: 1fr; /* Single column on mobile */
-    grid-template-rows: repeat(5, auto); /* One row per photo, auto height */
-    width: 100vw; /* Ensure full viewport width on mobile */
-    height: auto; /* Let the height adjust to content on mobile */
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    width: 100vw;
+    height: auto;
     top: 30px;
   }
-  .photo-item:nth-child(1),
-  .photo-item:nth-child(2),
-  .photo-item:nth-child(3),
-  .photo-item:nth-child(4),
-  .photo-item:nth-child(5) {
-    grid-column: 1; /* All photos in the first column */
-    grid-row: auto; /* Each photo in its own row */
+  .photo-gallery .photo-item:nth-child(n) {
+    grid-column: 1;
+    grid-row: auto;
   }
   .photo-item img {
-    height: auto; /* On mobile, let the height adjust naturally */
-    aspect-ratio: 3 / 2; /* Maintain a consistent aspect ratio for better scaling */
+    height: auto;
+    aspect-ratio: 3 / 2;
   }
   .photo-overlay h3 {
     font-size: 1rem;
