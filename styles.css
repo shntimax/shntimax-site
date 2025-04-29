@@ -67,8 +67,8 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 30px; /* Reduced from 50px to 30px */
-  background: #E6ECEF; /* Less saturated, light blue-gray background */
+  height: 15px; /* Reduced from 50px to 30px */
+  background: #a5d6ee; /* Less saturated, light blue-gray background */
   display: flex;
   align-items: center;
   justify-content: center;
