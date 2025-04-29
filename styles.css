@@ -47,13 +47,19 @@ main {
 .gallery img:hover {
   transform: scale(1.05);
 }
-/* Global Styles to Ensure Scrolling */
+/* Global Styles to Ensure Scrolling and Hide Scrollbar */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Prevent horizontal scrolling */
   overflow-y: auto; /* Allow vertical scrolling */
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
+}
+/* Hide scrollbar in Chrome, Safari, and Edge */
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none;
 }
 
 /* Story Section (keep fixed) */
