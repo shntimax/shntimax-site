@@ -1,38 +1,3 @@
-body {
-  font-family: 'Arial', sans-serif;
-  background: #F0F4F8;
-  color: #333;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-header {
-  text-align: center;
-  background: #A4D4D9;
-  padding: 20px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 10;
-}
-nav a {
-  margin: 0 15px;
-  color: #1A3C4D;
-  text-decoration: none;
-  font-weight: bold;
-}
-nav a:hover {
-  color: #E8F1F2;
-}
-main {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px;
-  text-align: center;
-  margin-top: 80px;
-}
-
 /* Global Styles to Ensure Scrolling and Hide Scrollbar */
 html, body {
   height: 100%;
@@ -125,7 +90,7 @@ nav a:hover {
   font-size: 1rem;
 }
 
-/* Photo Gallery (updated to stretch edge-to-edge) */
+/* Photo Gallery (updated to stretch fully edge-to-edge) */
 .photo-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
@@ -134,15 +99,15 @@ nav a:hover {
   margin: 0; /* No margin */
   padding: 0; /* No padding */
   background: #F8F8F8; /* Off-white background */
-  width: 100%;
+  width: 100vw; /* Use viewport width to ensure edge-to-edge */
   height: calc(100vh - 30px); /* Full viewport height minus header */
   position: relative;
   top: 30px; /* Start below the fixed header */
+  left: 0; /* Ensure it starts at the left edge */
   box-sizing: border-box;
 }
 .photo-item {
   position: relative;
-  display: block;
   width: 100%;
   height: 100%;
 }
@@ -305,6 +270,7 @@ main:has(.photo-gallery) {
   .photo-gallery {
     grid-template-columns: 1fr; /* Single column on mobile */
     grid-template-rows: repeat(5, auto); /* One row per photo, auto height */
+    width: 100vw; /* Ensure full viewport width on mobile */
     height: auto; /* Let the height adjust to content on mobile */
     top: 30px;
   }
