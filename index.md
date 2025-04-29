@@ -1,5 +1,4 @@
 ---
-title: ShntiMax
 layout: main
 ---
 <div class="gif-container">
