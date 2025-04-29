@@ -3,7 +3,7 @@ layout: main
 ---
 
 <div class="photo-gallery">
-  <a href="/blog/story1/" class="photo-item">
+  <a href="/blog/story1/" class="photo-item span-two">
     <img src="/assets/story1.jpg" alt="A Peaceful Sunset">
     <div class="photo-overlay">
       <h3>A Peaceful Sunset</h3>
@@ -15,7 +15,7 @@ layout: main
       <h3>A Quiet Morning</h3>
     </div>
   </a>
-  <a href="/blog/story3/" class="photo-item">
+  <a href="/blog/story3/" class="photo-item span-two">
     <img src="/assets/story3.jpg" alt="A Starry Night">
     <div class="photo-overlay">
       <h3>A Starry Night</h3>
@@ -29,5 +29,4 @@ layout: main
   </a>
 </div>
 <script src="/photo-gallery.js"></script>
-
 

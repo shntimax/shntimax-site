@@ -125,18 +125,24 @@ nav a:hover {
   font-size: 1rem;
 }
 
-/* Photo Gallery (new for /gallery/) */
+/* Photo Gallery (updated for /gallery/) */
 .photo-gallery {
   column-count: 3; /* Masonry-style columns */
   column-gap: 0; /* No gap between columns */
-  padding: 20px; /* Breathing room around the grid */
+  padding: 0; /* Remove padding to fill the site */
+  margin-top: 30px; /* Account for the fixed header */
   background: #F8F8F8; /* Off-white background */
+  width: 100%;
+  box-sizing: border-box;
 }
 .photo-item {
   position: relative;
   display: block;
   margin-bottom: 0; /* No margin between items */
   break-inside: avoid; /* Prevent items from breaking across columns */
+}
+.photo-item.span-two {
+  column-span: 2; /* Span two columns */
 }
 .photo-item img {
   width: 100%;
@@ -266,7 +272,10 @@ main {
   }
   .photo-gallery {
     column-count: 1; /* Single column on mobile */
-    padding: 10px;
+    margin-top: 30px;
+  }
+  .photo-item.span-two {
+    column-span: none; /* Disable spanning on mobile */
   }
   .photo-overlay h3 {
     font-size: 1rem;
