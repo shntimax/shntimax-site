@@ -48,39 +48,33 @@ window.addEventListener("load", () => {
       const curveOffset = 100 * (1 - distanceFromCenter * distanceFromCenter); // Curve radius
 
       // Calculate text opacity (1 at center, 0 at top/bottom)
-      const textOpacity = 1 - distanceFromCenter; // 1 when centered, 0 at edges
+      const textOpacity = 1 - distanceFromCenter;
 
       // Infinite loop: reposition items as they move out of view
       let shouldReposition = false;
       if (itemTop > viewportHeight + itemRect.height) {
-        // Item is below the viewport, move it to the top
         positions[index] -= totalCycleHeight;
         shouldReposition = true;
       } else if (itemTop < -itemRect.height - 100) {
-        // Item is above the viewport, move it to the bottom
         positions[index] += totalCycleHeight;
         shouldReposition = true;
       }
 
       // Update the item's position instantly to avoid intermediate states
       if (shouldReposition) {
-        // Recalculate position after repositioning
         const newTop = positions[index] - container.getBoundingClientRect().top;
         const newCenter = newTop + itemRect.height / 2;
         const newDistanceFromCenter = Math.abs(newCenter - viewportHeight / 2) / (viewportHeight / 2);
         const newScale = 1 + (0.3 * (1 - newDistanceFromCenter));
         const newCurveOffset = 100 * (1 - newDistanceFromCenter * newDistanceFromCenter);
 
-        // Instantly set all properties to match the new position
         gsap.set(item, {
           y: positions[index],
           x: newCurveOffset,
           scale: newScale,
         });
-        // Ensure text is hidden when repositioned
         gsap.set(item.querySelector(".story-text"), { opacity: 0 });
       } else {
-        // Smoothly animate the x position, scale, and text opacity for items not being repositioned
         gsap.to(item, {
           y: positions[index],
           scale: scale,
@@ -99,17 +93,39 @@ window.addEventListener("load", () => {
     });
   };
 
-  // Handle trackpad scrolling
+  // Handle trackpad scrolling (desktop)
   let scrollVelocity = 0;
   container.addEventListener("wheel", (e) => {
     e.preventDefault();
     const delta = e.deltaY * 0.5; // Adjust scroll speed
     scrollVelocity = delta;
 
-    // Update positions based on scroll
     positions = positions.map(pos => pos - scrollVelocity);
+    updateItems();
+  });
 
-    updateItems(); // Update positions, scaling, and loop on scroll
+  // Handle touch scrolling (mobile)
+  let touchStartY = 0;
+  let touchLastY = 0;
+  container.addEventListener("touchstart", (e) => {
+    touchStartY = e.touches[0].clientY;
+    touchLastY = touchStartY;
+  });
+
+  container.addEventListener("touchmove", (e) => {
+    e.preventDefault(); // Prevent default scrolling on this container
+    const touchY = e.touches[0].clientY;
+    const delta = (touchLastY - touchY) * 0.5; // Adjust touch sensitivity
+    scrollVelocity = delta;
+
+    positions = positions.map(pos => pos - scrollVelocity);
+    updateItems();
+
+    touchLastY = touchY;
+  });
+
+  container.addEventListener("touchend", () => {
+    scrollVelocity = 0; // Reset velocity on touch end
   });
 
   // Initial update

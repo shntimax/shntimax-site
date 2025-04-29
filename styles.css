@@ -47,6 +47,7 @@ main {
 .gallery img:hover {
   transform: scale(1.05);
 }
+/* Story Section (keep fixed) */
 .stories-container {
   width: 100%;
   height: calc(100vh - 80px);
@@ -71,9 +72,9 @@ main {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  display: flex; /* Added to align image and text side by side */
+  display: flex;
   align-items: center;
-  gap: 20px; /* Space between text and image */
+  gap: 20px;
 }
 .story-item img {
   width: 100%;
@@ -84,7 +85,7 @@ main {
 .story-text {
   text-align: left;
   color: #1A3C4D;
-  opacity: 0; /* Default to hidden, will animate in with JS */
+  opacity: 0;
 }
 .story-text h3 {
   margin: 0 0 5px;
@@ -95,6 +96,7 @@ main {
   margin: 0;
   font-size: 1rem;
 }
+/* Home Page (already scrollable, but confirm) */
 .gif-container {
   display: flex;
   justify-content: center;
@@ -108,6 +110,7 @@ main {
 }
 main {
   padding-top: 60px;
+  min-height: 100vh; /* Ensure the main content can grow to fit all content */
 }
 .about-me {
   display: flex;
@@ -138,4 +141,44 @@ main {
   margin: 0;
   font-size: 1rem;
   color: #333;
+}
+/* Photo Pages (make scrollable) */
+.story-content {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.story-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.story-content h2 {
+  font-size: 1.5rem;
+  color: #1A3C4D;
+  margin-bottom: 10px;
+}
+.story-content p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .story-item {
+    width: 200px; /* Smaller width for mobile */
+    flex-direction: column; /* Stack text below image on mobile */
+    gap: 10px;
+  }
+  .story-text {
+    text-align: center; /* Center text below image on mobile */
+  }
+  .about-me {
+    flex-direction: column;
+    text-align: center;
+  }
+  .about-me-photo {
+    margin-bottom: 20px;
+  }
 }
