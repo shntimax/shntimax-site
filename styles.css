@@ -36,7 +36,7 @@ main {
 /* Global Styles to Ensure Scrolling and Hide Scrollbar */
 html, body {
   height: 100%;
-  margin: 0;
+  margin: 0; /* Ensure no default margins */
   padding: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -125,14 +125,14 @@ nav a:hover {
   font-size: 1rem;
 }
 
-/* Photo Gallery (updated to fill the site) */
+/* Photo Gallery (updated to stretch edge-to-edge) */
 .photo-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
   grid-template-rows: 1fr 1fr; /* Two rows, each taking half the height */
   gap: 0; /* No gap between items */
-  margin: 0; /* Remove any margin */
-  padding: 0; /* Remove any padding */
+  margin: 0; /* No margin */
+  padding: 0; /* No padding */
   background: #F8F8F8; /* Off-white background */
   width: 100%;
   height: calc(100vh - 30px); /* Full viewport height minus header */
@@ -238,7 +238,16 @@ nav a:hover {
 main {
   padding-top: 30px;
   min-height: 100vh;
+  margin: 0; /* Remove any default margin */
+  padding-left: 0; /* Remove padding */
+  padding-right: 0; /* Remove padding */
 }
+/* Ensure the gallery page has no padding or margin */
+main:has(.photo-gallery) {
+  padding: 0;
+  margin: 0;
+}
+
 .about-me {
   display: flex;
   align-items: center;
