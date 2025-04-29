@@ -67,22 +67,22 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 50px; /* Thinner header */
-  background: #fff; /* Adjust background as needed */
+  height: 30px; /* Reduced from 50px to 30px */
+  background: #E6ECEF; /* Less saturated, light blue-gray background */
   display: flex;
   align-items: center;
-  justify-content: center; /* Center the nav links */
+  justify-content: center;
   z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Adjusted shadow for smaller header */
 }
 nav {
   display: flex;
-  gap: 20px; /* Space between links */
+  gap: 15px; /* Slightly reduced gap to fit smaller header */
 }
 nav a {
   text-decoration: none;
   color: #1A3C4D;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Slightly smaller font to fit new height */
   font-weight: 500;
 }
 nav a:hover {
@@ -92,9 +92,9 @@ nav a:hover {
 /* Story Section (adjust for new header height) */
 .stories-container {
   width: 100%;
-  height: calc(100vh - 50px); /* Adjusted for new header height */
+  height: calc(100vh - 30px); /* Adjusted for new header height */
   position: fixed;
-  top: 50px; /* Adjusted for new header height */
+  top: 30px; /* Adjusted for new header height */
   left: 0;
   overflow: hidden;
   display: flex;
@@ -151,7 +151,7 @@ nav a:hover {
   border-radius: 10px;
 }
 main {
-  padding-top: 50px; /* Adjusted for new header height */
+  padding-top: 30px; /* Adjusted for new header height */
   min-height: 100vh;
 }
 .about-me {
@@ -224,9 +224,9 @@ main {
     margin-bottom: 20px;
   }
   nav {
-    gap: 15px; /* Smaller gap on mobile */
+    gap: 10px; /* Further reduced gap on mobile */
   }
   nav a {
-    font-size: 0.9rem; /* Slightly smaller font on mobile */
+    font-size: 0.8rem; /* Further reduced font size on mobile */
   }
 }
