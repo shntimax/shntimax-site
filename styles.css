@@ -47,6 +47,15 @@ main {
 .gallery img:hover {
   transform: scale(1.05);
 }
+/* Global Styles to Ensure Scrolling */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
 /* Story Section (keep fixed) */
 .stories-container {
   width: 100%;
@@ -96,7 +105,7 @@ main {
   margin: 0;
   font-size: 1rem;
 }
-/* Home Page (already scrollable, but confirm) */
+/* Home Page (ensure scrollable) */
 .gif-container {
   display: flex;
   justify-content: center;

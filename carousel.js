@@ -3,9 +3,9 @@ window.addEventListener("load", () => {
   const track = document.querySelector(".stories-track");
   const items = document.querySelectorAll(".story-item");
 
+  // Only proceed if we're on the stories page (where .stories-container exists)
   if (!container || !track || items.length === 0) {
-    console.error("Container, track, or items not found!");
-    return;
+    return; // Exit if not on the stories page
   }
 
   // Prepare items for infinite looping
@@ -96,7 +96,7 @@ window.addEventListener("load", () => {
   // Handle trackpad scrolling (desktop)
   let scrollVelocity = 0;
   container.addEventListener("wheel", (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default scrolling only on the stories container
     const delta = e.deltaY * 0.5; // Adjust scroll speed
     scrollVelocity = delta;
 
@@ -113,7 +113,7 @@ window.addEventListener("load", () => {
   });
 
   container.addEventListener("touchmove", (e) => {
-    e.preventDefault(); // Prevent default scrolling on this container
+    e.preventDefault(); // Prevent default scrolling only on the stories container
     const touchY = e.touches[0].clientY;
     const delta = (touchLastY - touchY) * 0.5; // Adjust touch sensitivity
     scrollVelocity = delta;
