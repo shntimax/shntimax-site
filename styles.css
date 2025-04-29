@@ -125,11 +125,12 @@ nav a:hover {
   font-size: 1rem;
 }
 
-/* Photo Gallery (updated for /gallery/) */
+/* Photo Gallery (updated for /gallery/ with CSS Grid) */
 .photo-gallery {
-  column-count: 3; /* Masonry-style columns */
-  column-gap: 0; /* No gap between columns */
-  padding: 0; /* Remove padding to fill the site */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  grid-template-rows: auto auto; /* Two rows */
+  gap: 0; /* No gap between items */
   margin-top: 30px; /* Account for the fixed header */
   background: #F8F8F8; /* Off-white background */
   width: 100%;
@@ -138,11 +139,26 @@ nav a:hover {
 .photo-item {
   position: relative;
   display: block;
-  margin-bottom: 0; /* No margin between items */
-  break-inside: avoid; /* Prevent items from breaking across columns */
 }
-.photo-item.span-two {
-  column-span: 2; /* Span two columns */
+.photo-item:nth-child(1) { /* Vietnam (landscape) */
+  grid-column: 1 / 3; /* Span first two columns */
+  grid-row: 1; /* First row */
+}
+.photo-item:nth-child(2) { /* Abandoned (portrait) */
+  grid-column: 3; /* Third column */
+  grid-row: 1; /* First row */
+}
+.photo-item:nth-child(3) { /* First portrait in second row */
+  grid-column: 1; /* First column */
+  grid-row: 2; /* Second row */
+}
+.photo-item:nth-child(4) { /* Second portrait in second row */
+  grid-column: 2; /* Second column */
+  grid-row: 2; /* Second row */
+}
+.photo-item:nth-child(5) { /* Third portrait in second row */
+  grid-column: 3; /* Third column */
+  grid-row: 2; /* Second row */
 }
 .photo-item img {
   width: 100%;
@@ -271,11 +287,17 @@ main {
     font-size: 0.8rem;
   }
   .photo-gallery {
-    column-count: 1; /* Single column on mobile */
+    grid-template-columns: 1fr; /* Single column on mobile */
+    grid-template-rows: repeat(5, auto); /* One row per photo */
     margin-top: 30px;
   }
-  .photo-item.span-two {
-    column-span: none; /* Disable spanning on mobile */
+  .photo-item:nth-child(1),
+  .photo-item:nth-child(2),
+  .photo-item:nth-child(3),
+  .photo-item:nth-child(4),
+  .photo-item:nth-child(5) {
+    grid-column: 1; /* All photos in the first column */
+    grid-row: auto; /* Each photo in its own row */
   }
   .photo-overlay h3 {
     font-size: 1rem;
