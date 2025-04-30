@@ -358,63 +358,26 @@ html, body {
       grid-row: auto;
     }
   }
-    /* Custom layout for /people/ page (non-repeating) */
-  body.page-people .photo-gallery {
-    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    grid-auto-rows: minmax(50vh, 1fr); /* Row height */
-  }
-  /* Define specific positions for each photo */
-  body.page-people .photo-gallery .photo-item:nth-child(1) {
-    grid-column: 1 / 3; /* First photo spans 2 columns */
-    grid-row: 1; /* First row */
-  }
-  body.page-people .photo-gallery .photo-item:nth-child(2) {
-    grid-column: 3; /* Second photo in the 3th column */
-    grid-row: 1; /* First row */
-  }
-  body.page-people .photo-gallery .photo-item:nth-child(3) {
-    grid-column: 1; /* Third photo in the 1st column */
-    grid-row: 2; /* Second row */
-  }
-  body.page-people .photo-gallery .photo-item:nth-child(4) {
-    grid-column: 2; 
-    grid-row: 2; /* Second row */
-  }
-  body.page-people .photo-gallery .photo-item:nth-child(5) {
-    grid-column: 3; 
-    grid-row: 2; /* Second row */
-  }
-  /* Adjust mobile layout for /abandoned/ */
-  @media (max-width: 768px) {
-    body.page-people .photo-gallery {
-      grid-template-columns: 1fr; /* Single column on mobile */
-      grid-auto-rows: auto;
-    }
-    body.page-people .photo-gallery .photo-item:nth-child(n) {
-      grid-column: 1;
-      grid-row: auto;
-    }
-  }
-    /* Custom layout for /flowers/ page (non-repeating) */
+  /* Custom layout for /flowers/ page (non-repeating) */
   body.page-flowers .photo-gallery {
     grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
     grid-auto-rows: minmax(50vh, 1fr); /* Row height */
   }
   /* Define specific positions for each photo */
   body.page-flowers .photo-gallery .photo-item:nth-child(1) {
-    grid-column: 1; /* First photo spans 2 columns */
+    grid-column: 1 / 3; /* First photo spans 2 columns */
     grid-row: 1; /* First row */
   }
   body.page-flowers .photo-gallery .photo-item:nth-child(2) {
-    grid-column: 2; /* Second photo in the 3th column */
+    grid-column: 3; /* Second photo in the 3th column */
     grid-row: 1; /* First row */
   }
   body.page-flowers .photo-gallery .photo-item:nth-child(3) {
-    grid-column: 3; /* Third photo in the 1st column */
-    grid-row: 1; /* Second row */
+    grid-column: 1; /* Third photo in the 1st column */
+    grid-row: 2; /* Second row */
   }
   body.page-flowers .photo-gallery .photo-item:nth-child(4) {
-    grid-column: 1 /3;
+    grid-column: 2;
     grid-row: 2; /* Second row */
   }
   body.page-flowers .photo-gallery .photo-item:nth-child(5) {
