@@ -325,8 +325,8 @@ body.page-vietnam .photo-gallery .photo-item:nth-child(5) {
 body.page-flowers .photo-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: minmax(30vh, 1fr); /* Adjusted row height for better proportions */
-  gap: 5px; /* Small gap for visual separation */
+  grid-auto-rows: minmax(30vh, 1fr);
+  gap: 5px;
   margin: 0;
   padding: 0;
   background: #F8F8F8;
@@ -337,7 +337,6 @@ body.page-flowers .photo-gallery {
   left: 0;
   box-sizing: border-box;
 }
-/* Row 1: Three portrait photos */
 body.page-flowers .photo-gallery .photo-item:nth-child(1) {
   grid-column: 1;
   grid-row: 1;
@@ -350,7 +349,6 @@ body.page-flowers .photo-gallery .photo-item:nth-child(3) {
   grid-column: 3;
   grid-row: 1;
 }
-/* Row 2: Landscape photo (cols 1-2), portrait photo (col 3) */
 body.page-flowers .photo-gallery .photo-item:nth-child(4) {
   grid-column: 1 / 3;
   grid-row: 2;
@@ -359,7 +357,6 @@ body.page-flowers .photo-gallery .photo-item:nth-child(5) {
   grid-column: 3;
   grid-row: 2;
 }
-/* Style portrait photos */
 body.page-flowers .photo-gallery .photo-item:nth-child(-n+3),
 body.page-flowers .photo-gallery .photo-item:nth-child(5) {
   display: flex;
@@ -372,17 +369,15 @@ body.page-flowers .photo-gallery .photo-item:nth-child(5) img {
   width: auto;
   height: 90%;
   max-width: 90%;
-  aspect-ratio: 2 / 3; /* Portrait: taller than wide */
+  aspect-ratio: 2 / 3;
   object-fit: cover;
 }
-/* Style landscape photo */
 body.page-flowers .photo-gallery .photo-item:nth-child(4) img {
   width: 100%;
   height: 100%;
-  aspect-ratio: 3 / 2; /* Landscape: wider than tall */
+  aspect-ratio: 3 / 2;
   object-fit: cover;
 }
-/* On mobile, stack photos */
 @media (max-width: 768px) {
   body.page-flowers .photo-gallery {
     grid-template-columns: 1fr;
