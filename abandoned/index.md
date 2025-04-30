@@ -21,13 +21,13 @@ layout: main
     </div>
   </a>
   <a href="/abandoned/photo4/" class="photo-item">
-    <img src="/assets/flowers.jpg" alt="Mountain Path">
+    <img src="/assets/flower1.jpg" alt="Mountain Path">
     <div class="photo-overlay">
       <h3>Mountain Path</h3>
     </div>
   </a>
   <a href="/abandoned/photo5/" class="photo-item">
-    <img src="/assets/flowers.jpg" alt="River Reflections">
+    <img src="/assets/flower2.jpg" alt="River Reflections">
     <div class="photo-overlay">
       <h3>River Reflections</h3>
     </div>
