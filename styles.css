@@ -361,8 +361,8 @@ body.page-abandoned .photo-gallery .photo-item:nth-child(5) {
 }
 /* Custom layout for /flowers/ page (non-repeating) */
 body.page-flowers .photo-gallery {
-  grid-template-columns: repeat(3, 1fr); /* Keep the 3-column grid */
-  grid-auto-rows: minmax(20vh, 1fr); /* Reduce row height for smaller photos */
+  grid-template-columns: repeat(3, 1fr); /* 3-column grid */
+  grid-auto-rows: minmax(20vh, 1fr); /* Smaller row height */
 }
 body.page-flowers .photo-gallery .photo-item:nth-child(1) {
   grid-column: 1 / 3; /* Spans columns 1 and 2 */
@@ -388,9 +388,14 @@ body.page-flowers .photo-gallery .photo-item:nth-child(6) {
   grid-column: 3; /* Takes column 3 */
   grid-row: 3; /* Row 3 */
 }
-/* Ensure images maintain a square-like aspect ratio */
-body.page-flowers .photo-gallery .photo-item img {
-  aspect-ratio: 1 / 1; /* Force a square aspect ratio for images */
+/* Style the large photo (2x2) */
+body.page-flowers .photo-gallery .photo-item:nth-child(1) img {
+  aspect-ratio: 4 / 3; /* Slightly wider than tall for the 2x2 space */
+  object-fit: cover;
+}
+/* Style the smaller photos as portrait */
+body.page-flowers .photo-gallery .photo-item:nth-child(n+2) img {
+  aspect-ratio: 3 / 4; /* Portrait format (taller than wide) */
   object-fit: cover;
 }
 /* On mobile, stack photos */
