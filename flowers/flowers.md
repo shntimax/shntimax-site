@@ -3,33 +3,33 @@ layout: main
 ---
 <div class="photo-gallery">
   <a href="/flowers/photo1/" class="photo-item">
-    <img src="/assets/vietnam.jpg" alt="Japanese Serenity">
+    <img src="/assets/flowers/flower1.jpg" alt="Madeira">
     <div class="photo-overlay">
-      <h3>t2test</h3>
+      <h3>Madeira</h3>
     </div>
   </a>
   <a href="/flowers/photo2/" class="photo-item">
-    <img src="/assets/abandoned.jpg" alt="Temple at Dawn">
+    <img src="/assets/flowers/flower2.jpg" alt="Madeira">
     <div class="photo-overlay">
-      <h3>Temple at Dawn</h3>
+      <h3>Madeira</h3>
     </div>
   </a>
   <a href="/flowers/photo3/" class="photo-item">
-    <img src="/assets/flowers.jpg" alt="Zen Garden">
+    <img src="/assets/flowers/flower4.jpg" alt="Madeira">
     <div class="photo-overlay">
-      <h3>Zen Garden</h3>
+      <h3>Madeira</h3>
     </div>
   </a>
   <a href="/flowers/photo4/" class="photo-item">
-    <img src="/assets/flowers.jpg" alt="Mountain Path">
+    <img src="/assets/flowers/flower3.jpg" alt="Madeira">
     <div class="photo-overlay">
-      <h3>Mountain Path</h3>
+      <h3>Madeira</h3>
     </div>
   </a>
   <a href="/flowers/photo5/" class="photo-item">
-    <img src="/assets/flowers.jpg" alt="River Reflections">
+    <img src="/assets/flowers.jpg" alt="Vũng Tàu">
     <div class="photo-overlay">
-      <h3>River Reflections</h3>
+      <h3>Vũng Tàu</h3>
     </div>
   </a>
 </div>
