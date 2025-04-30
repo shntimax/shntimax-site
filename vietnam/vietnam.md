@@ -5,13 +5,13 @@ layout: main
   <a href="/vietnam/photo1/" class="photo-item">
     <img src="/assets/vietnam.jpg" alt="V1">
     <div class="photo-overlay">
-      <h3>Japanese Serenity</h3>
+      <h3>t1</h3>
     </div>
   </a>
   <a href="/vietnam/photo2/" class="photo-item">
     <img src="/assets/abandoned.jpg" alt="V2">
     <div class="photo-overlay">
-      <h3>Temple at Dawn</h3>
+      <h3>T2</h3>
     </div>
   </a>
   <a href="/vietnam/photo3/" class="photo-item">
