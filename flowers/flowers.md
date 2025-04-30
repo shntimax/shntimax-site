@@ -5,7 +5,7 @@ layout: main
   <a href="/flowers/photo1/" class="photo-item">
     <img src="/assets/flowers/flower1.jpg" alt="Madeira1">
     <div class="photo-overlay">
-      <h3>Madeira</h3>
+      <h3>Madeiratest</h3>
     </div>
   </a>
   <a href="/flowers/photo2/" class="photo-item">
