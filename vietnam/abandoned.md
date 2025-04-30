@@ -5,7 +5,7 @@ layout: main
   <a href="/abandoned/photo1/" class="photo-item">
     <img src="/assets/vietnam.jpg" alt="Japanese Serenity">
     <div class="photo-overlay">
-      <h3>Japanese Serenity</h3>
+      <h3>t2</h3>
     </div>
   </a>
   <a href="/abandoned/photo2/" class="photo-item">
