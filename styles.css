@@ -358,43 +358,85 @@ html, body {
       grid-row: auto;
     }
   }
-  /* Custom layout for /flowers/ page (non-repeating) */
+  /* Simplified layout for /flowers/ page */
+body.page-flowers .photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(30vh, 1fr);
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  background: #F8F8F8;
+  width: 100vw;
+  min-height: calc(100vh - 30px);
+  position: relative;
+  top: 30px;
+  left: 0;
+  box-sizing: border-box;
+}
+/* Row 1: Three portrait photos */
+body.page-flowers .photo-gallery .photo-item:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+body.page-flowers .photo-gallery .photo-item:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+body.page-flowers .photo-gallery .photo-item:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1;
+}
+/* Row 2: Landscape photo (cols 1-2), portrait photo (col 3) */
+body.page-flowers .photo-gallery .photo-item:nth-child(4) {
+  grid-column: 1 / 3;
+  grid-row: 2;
+}
+body.page-flowers .photo-gallery .photo-item:nth-child(5) {
+  grid-column: 3;
+  grid-row: 2;
+}
+/* Style portrait photos */
+body.page-flowers .photo-gallery .photo-item:nth-child(-n+3),
+body.page-flowers .photo-gallery .photo-item:nth-child(5) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+body.page-flowers .photo-gallery .photo-item:nth-child(-n+3) img,
+body.page-flowers .photo-gallery .photo-item:nth-child(5) img {
+  width: auto;
+  height: 90%;
+  max-width: 90%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+/* Style landscape photo */
+body.page-flowers .photo-gallery .photo-item:nth-child(4) img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+/* On mobile, stack photos */
+@media (max-width: 768px) {
   body.page-flowers .photo-gallery {
-    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    grid-auto-rows: minmax(50vh, 1fr); /* Row height */
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    gap: 0;
   }
-  /* Define specific positions for each photo */
-  body.page-flowers .photo-gallery .photo-item:nth-child(1) {
-    grid-column: 1; /* First photo spans 2 columns */
-    grid-row: 1; /* First row */
+  body.page-flowers .photo-gallery .photo-item:nth-child(n) {
+    grid-column: 1;
+    grid-row: auto;
+    display: block;
   }
-  body.page-flowers .photo-gallery .photo-item:nth-child(2) {
-    grid-column: 2; /* Second photo in the 3th column */
-    grid-row: 1; /* First row */
+  body.page-flowers .photo-gallery .photo-item img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
   }
-  body.page-flowers .photo-gallery .photo-item:nth-child(3) {
-    grid-column: 3; /* Third photo in the 1st column */
-    grid-row: 1; /* Second row */
-  }
-  body.page-flowers .photo-gallery .photo-item:nth-child(4) {
-    grid-column: 1 / 3;
-    grid-row: 2; /* Second row */
-  }
-  body.page-flowers .photo-gallery .photo-item:nth-child(5) {
-    grid-column: 3; 
-    grid-row: 2; /* Second row */
-  }
-  /* Adjust mobile layout for /flowers/ */
-  @media (max-width: 768px) {
-    body.page-flowers .photo-gallery {
-      grid-template-columns: 1fr; /* Single column on mobile */
-      grid-auto-rows: auto;
-    }
-    body.page-flowers .photo-gallery .photo-item:nth-child(n) {
-      grid-column: 1;
-      grid-row: auto;
-    }
-  }
+}
   /* Custom layout for /experimental/ page (non-repeating) */
   body.page-experimental .photo-gallery {
     grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
