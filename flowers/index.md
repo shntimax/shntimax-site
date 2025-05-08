@@ -32,5 +32,29 @@ layout: main
       <h3>Vũng Tàu</h3>
     </div>
   </a>
+  <a href="/flowers/photo5/" class="photo-item">
+    <img src="/assets/flowers/flower5.jpg" alt="Flower 6">
+    <div class="photo-overlay">
+      <h3>Vũng Tàu</h3>
+    </div>
+  </a>
+  <a href="/flowers/photo5/" class="photo-item">
+    <img src="/assets/flowers/flower6.jpg" alt="Flower 7">
+    <div class="photo-overlay">
+      <h3>Vũng Tàu</h3>
+    </div>
+  </a>
+  <a href="/flowers/photo5/" class="photo-item">
+    <img src="/assets/flowers/flower7.jpg" alt="Flower 8">
+    <div class="photo-overlay">
+      <h3>Da Lat</h3>
+    </div>
+  </a>
+  <a href="/flowers/photo5/" class="photo-item">
+    <img src="/assets/flowers/flower8.jpg" alt="Flower 9">
+    <div class="photo-overlay">
+      <h3>Da Lat</h3>
+    </div>
+  </a>
 </div>
 
