@@ -1,7 +1,7 @@
 ---
 layout: main
 ---
-<div class="photo-gallery">
+<div class="photo-people">
   <a href="/people/photo1/" class="photo-item">
     <img src="/assets/people/Nadia (6).jpg" alt="Nadia">
     <div class="photo-overlay">
