@@ -712,23 +712,23 @@ html, body {
     grid-column: 1; 
     grid-row: 2; 
   }
-  .photo-peopledje .photo-item:nth-child(3) {
+  .photo-peopledje .photo-item:nth-child(4) {
     grid-column: 2 / 4; 
     grid-row: 2; 
   }
-  .photo-peopledje .photo-item:nth-child(3) {
+  .photo-peopledje .photo-item:nth-child(5) {
     grid-column: 1 / 3; 
     grid-row: 3; 
   }
-  .photo-peopledje .photo-item:nth-child(3) {
+  .photo-peopledje .photo-item:nth-child(6) {
     grid-column: 3; 
     grid-row: 3; 
   }
-  .photo-peopledje .photo-item:nth-child(3) {
+  .photo-peopledje .photo-item:nth-child(7) {
     grid-column: 1; 
     grid-row: 4; 
   }
-  .photo-peopledje .photo-item:nth-child(3) {
+  .photo-peopledje .photo-item:nth-child(8) {
     grid-column: 2 / 4; 
     grid-row: 4; 
   }
