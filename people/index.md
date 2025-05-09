@@ -20,7 +20,7 @@ layout: main
       <h3>Banh Mi Lady</h3>
     </div>
   </a>
-  <a href="/people/photo4/" class="photo-item">
+  <a href="/people/meo/" class="photo-item">
     <img src="/assets/people/cat (1).jpg" alt="mèo">
     <div class="photo-overlay">
       <h3>Mèo</h3>
