@@ -27,10 +27,6 @@ layout: main
     
   </a>
   <a href="/people/meo/" class="photo-item">
-    <img src="/assets/people/cat (9).jpg" alt="meo">
-    
-  </a>
-  <a href="/people/meo/" class="photo-item">
     <img src="/assets/people/cat (7).jpg" alt="meo">
     
   </a>
