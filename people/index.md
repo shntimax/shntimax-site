@@ -27,7 +27,7 @@ layout: main
     </div>
   </a>
   <a href="/people/j+i/" class="photo-item">
-    <img src="/assets/people/nhatrangice (2).jpg" alt="Icecreamshop">
+    <img src="/assets/people/j+i (1).jpg" alt="Icecreamshop">
     <div class="photo-overlay">
       <h3>Juice and Icecreamshop</h3>
     </div>
