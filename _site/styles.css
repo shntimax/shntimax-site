@@ -775,11 +775,11 @@ html, body {
 
   /* Adjust mobile layout for /abandoned/ */
   @media (max-width: 768px) {
-    .photo-peopledje {
+    .photo-peoplebml {
       grid-template-columns: 1fr; /* Single column on mobile */
       grid-auto-rows: auto;
     }
-    .photo-peopledje .photo-item:nth-child(n) {
+    .photo-peoplebml .photo-item:nth-child(n) {
       grid-column: 1;
       grid-row: auto;
     }
