@@ -14,7 +14,7 @@ layout: main
       <h3>Ng Vi</h3>
     </div>
   </a>
-  <a href="/people/photo3/" class="photo-item">
+  <a href="/people/Banhmilady/" class="photo-item">
     <img src="/assets/people/people4.jpg" alt="Banh Mi Lady">
     <div class="photo-overlay">
       <h3>Banh Mi Lady</h3>
