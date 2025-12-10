@@ -1,0 +1,22 @@
+{
+  "name": "shntimax-site",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "optimize": "node scripts/optimize-images.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "sharp": "^0.34.5"
+  },
+  "dependencies": {
+    "git-filter-repo": "^0.0.30"
+  }
+}

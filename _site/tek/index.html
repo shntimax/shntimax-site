@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tek</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header>
+    <h1></h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/gallery/">Photos</a>
+      <a href="/blog/">Stories</a>
+    </nav>
+  </header>
+      
+<div class="gallery-tek"></div>
+
+<script>
+// Anzahl deiner Fotos anpassen (z.B. 35)
+const totalPhotos = 21;
+
+const photos = Array.from({length: totalPhotos}, (_, i) => `Tphoto${i + 1}.webp`);
+const gallery = document.querySelector('.gallery-tek');
+
+photos.forEach(file => {
+  const img = new Image();
+  img.src = `/assets/tek/${file}`;
+  img.alt = file;
+  img.loading = "lazy";
+
+  const a = document.createElement('a');
+  a.href = "#";
+  a.className = "photo-item-tek";
+
+  img.onload = () => {
+    const ratio = img.naturalWidth / img.naturalHeight;
+    a.classList.add(ratio > 1.2 ? 'landscape-tek' : 'portrait-tek');
+  };
+
+  a.appendChild(img);
+  gallery.appendChild(a);
+});
+</script>
+
+</body>
+</html>

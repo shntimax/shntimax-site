@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morocco</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header>
+    <h1></h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/gallery/">Photos</a>
+      <a href="/blog/">Stories</a>
+    </nav>
+  </header>
+
+<div class="gallery-morocco">
+  <!-- Bilder werden per JS eingefügt -->
+</div>
+
+<script>
+const photos = [
+  "photo1.webp", "photo2.webp", "photo3.webp", "photo4.webp", "photo5.webp",
+  "photo6.webp", "photo7.webp", "photo8.webp", "photo9.webp", "photo10.webp",
+  "photo11.webp", "photo12.webp", "photo13.webp", "photo14.webp", "photo15.webp",
+  "photo16.webp", "photo17.webp", "photo18.webp", "photo19.webp", "photo20.webp",
+  "photo21.webp", "photo22.webp", "photo23.webp", "photo24.webp", "photo25.webp",
+  "photo26.webp", "photo27.webp", "photo28.webp"
+];
+
+const gallery = document.querySelector('.gallery-morocco');
+
+photos.forEach((file, i) => {
+  const img = new Image();
+  img.src = `/assets/morocco/${file}`;
+  img.alt = file;
+  img.loading = "lazy";
+
+  const link = document.createElement('a');
+  link.href = `#`;
+  link.className = 'photo-item-morocco';  // ← Suffix
+
+  img.onload = () => {
+    const ratio = img.naturalWidth / img.naturalHeight;
+    if (ratio > 1.2) {
+      link.classList.add('landscape-morocco');  // ← Suffix
+    } else {
+      link.classList.add('portrait-morocco');   // ← Suffix
+    }
+  };
+
+  link.appendChild(img);
+  gallery.appendChild(link);
+});
+</script>
+
+</body>
+</html>

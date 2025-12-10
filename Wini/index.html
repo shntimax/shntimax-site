@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wini</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header>
+    <h1></h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/gallery/">Photos</a>
+      <a href="/blog/">Stories</a>
+    </nav>
+  </header>
+      
+<div class="gallery-wini"></div>
+
+<script>
+// Anzahl deiner Fotos anpassen (z.B. 35)
+const totalPhotos = 10;
+
+const photos = Array.from({length: totalPhotos}, (_, i) => `Wphoto${i + 1}.webp`);
+const gallery = document.querySelector('.gallery-wini');
+
+photos.forEach(file => {
+  const img = new Image();
+  img.src = `/assets/wini/${file}`;
+  img.alt = file;
+  img.loading = "lazy";
+
+  const a = document.createElement('a');
+  a.href = "#";
+  a.className = "photo-item-wini";
+
+  img.onload = () => {
+    const ratio = img.naturalWidth / img.naturalHeight;
+    a.classList.add(ratio > 1.2 ? 'landscape-wini' : 'portrait-wini');
+  };
+
+  a.appendChild(img);
+  gallery.appendChild(a);
+});
+</script>
+
+</body>
+</html>
